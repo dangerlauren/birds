@@ -10,6 +10,10 @@ var users = require('./routes/users');
 
 var app = express();
 
+// Mongoose connection
+var mongoose = require('mongoose');
+mongoose.connect(process.env.MONGO_DB_BIRDS);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
