@@ -1,14 +1,22 @@
 var express = require('express');
 var router = express.Router();
 var bcrypt = require('bcrypt');
-var config = require('../config');
 
-var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 var User   = require('../models/user'); // get our mongoose model
+
+var Bird = require('../models/bird');
+var User = require('../models/user');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+	
+	Bird.find({name: "Cardinal"}, function(err, bird) {
+		if(err) console.log(err);
+		console.log(bird);
+		res.render('index', { title: 'What the Duck?' });
+	});
+
+  
 });
 
 router.get('/setup', function(req, res) {
@@ -74,3 +82,4 @@ router.post('/authenticate', function(req, res) {
 });
 
 module.exports = router;
+
