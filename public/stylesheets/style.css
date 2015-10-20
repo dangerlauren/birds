@@ -27,3 +27,14 @@ body {
 a {
   color: #00B7FF;
 }
+
+.textboxlogin {
+            opacity: 0.2;
+            height: 50px;
+        } 
+
+
+        .btn-default {
+            background-color: black;
+            color: white;
+        }
