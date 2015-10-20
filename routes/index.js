@@ -1,6 +1,6 @@
 var express = require('express');
 var passport = require('passport');
-var User = require('../models/user');
+var Account = require('../models/account');
 var Bird = require('../models/bird');
 var router = express.Router();
 
@@ -8,9 +8,9 @@ var router = express.Router();
 router.get('/', function (req, res) {
     Bird.find({}, function(err, birddata){
         res.render('index', { 
-                user : req.user,
-                title: 'What the Duck?', 
-                bird: birddata
+            user : req.user,
+            title: 'What the Duck?', 
+            bird: birddata
         });
     });
 });
@@ -20,9 +20,9 @@ router.get('/register', function(req, res) {
 });
 
 router.post('/register', function(req, res) {
-    User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
+    Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
         if (err) {
-            return res.render('register', { user : user });
+            return res.render('register', { account : account });
         }
 
         passport.authenticate('local')(req, res, function () {

@@ -1,8 +1,11 @@
+
 <% include ./partials/header %>
 
 <div class="container">
 
     <% if(!user) { %>
+        <h1>WHAT THE DUCK</h1>
+
         <a href="/login">LOGIN</a>
 
         <a href="/register">SIGNUP</a>
@@ -11,6 +14,7 @@
     <% if(user) { %>
 
         <p>Welcome <%= user.username %></p>
+
 
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
@@ -55,7 +59,7 @@
         </section>
 
         <a href="/logout">LOGOUT</a>
-
+        
     <% } %>
 
 </div>
