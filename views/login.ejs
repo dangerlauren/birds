@@ -11,19 +11,14 @@
 <body>
 <div class="container">
 
-    <% if(!user) { %>
-        <a href="/login">LOGIN</a>
-
-        <a href="/register">SIGNUP</a>
-    <% } %>
-
-    <% if(user) { %>
-
-        <p>Welcome <%= user.username %></p>
-
-        <a href="/logout">LOGOUT</a>
-
-    <% } %>
+    <div class="jumbotron text-center">
+        <form method="post" action="/login">
+            <input type='text', name="username", placeholder='Enter Username'>
+            <input type='password', name="password", placeholder='Password'>
+            <input type="submit">
+            <a href="/">Cancel</a>
+        </form>
+    </div>
 
 </div>
 </body>

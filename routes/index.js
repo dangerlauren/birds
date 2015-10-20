@@ -1,79 +1,44 @@
 var express = require('express');
-var router = express.Router();
-var bcrypt = require('bcrypt');
-var User   = require('../models/user'); // get our mongoose model
-var Bird = require('../models/bird');
+var passport = require('passport');
 var User = require('../models/user');
+var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-	Bird.find({}, function(err, bird) {
-		if(err) console.log(err);
-		console.log(bird);
-		res.render('index', { title: 'What the Duck?' });
-	});
+
+router.get('/', function (req, res) {
+    res.render('index', { user : req.user });
 });
 
-router.get('/setup', function(req, res) {
-  // create a sample user
-  var john = new User({
-    name: 'John Doe',
-    password: 'myawesomepassword',
-    admin: true
-  });
-
-  // save the sample user
-  john.save(function(err) {
-    if (err) throw err;
-
-    console.log('User saved successfully');
-    res.json({ success: true });
-  });
+router.get('/register', function(req, res) {
+    res.render('register', { });
 });
 
-router.get('/users', function(req, res) {
-  User.find({}, function(err, users) {
-    res.json(users);
-  });
-});
-
-router.post('/authenticate', function(req, res) {
-
-  User.findOne({
-    name: req.body.name
-  }, function(err, user) {
-
-    if (err) throw err;
-
-    if (!user) {
-      res.json({ success: false, message: 'Authentication failed. User not found.' });
-    }
-    else if (user) {
-
-      bcrypt.compare(req.body.password, user.password, function(err, result) {
-        if (!result) {
-          res.json({ success: false, message: 'Authentication failed. Wrong password.' });
+router.post('/register', function(req, res) {
+    User.register(new User({ username : req.body.username }), req.body.password, function(err, user) {
+        if (err) {
+            return res.render('register', { user : user });
         }
-        else {
-          // if user is found and password is right
-          // create a token
-          var token = jwt.sign(user, config.secret, {
-            expiresInMinutes: 1440 // expires in 24 hours
-          });
 
-          // return the information including token as JSON
-          res.json({
-            success: true,
-            message: 'Enjoy your token!',
-            token: token
-          });
-        }
-      });
+        passport.authenticate('local')(req, res, function () {
+            res.redirect('/');
+        });
+    });
+});
 
-    }
-  });
+router.get('/login', function(req, res) {
+    res.render('login', { user : req.user });
+});
 
+router.post('/login', passport.authenticate('local'), function(req, res) {
+    res.redirect('/');
+});
+
+router.get('/logout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
+
+router.get('/ping', function(req, res){
+    res.status(200).send("pong!");
 });
 
 module.exports = router;
-
