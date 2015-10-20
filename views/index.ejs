@@ -31,10 +31,10 @@
               </div>
               <div class="modal-body">
                 <h1>Birds</h1>
-                <%for(var i=0;i<bird.length;i++){%>    
+                <%for(var i=0;i<bird.length;i++){%>
                 <p>Name: <%= bird[i].name %></p>
                 <p>Latin Name: <%= bird[i].latin %></p>
-                <img src="<%= bird[i].images %>" class="img-responsive" width="150px">
+                <img src="<%= bird[i].images[0].url %>" class="img-responsive" width="150px">
                 <% } %>
               </div>
               <div class="modal-footer">
@@ -46,7 +46,7 @@
         </div>
 
         <a href="/logout">LOGOUT</a>
-        
+
     <% } %>
 
 </div>
