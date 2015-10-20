@@ -1,24 +1,12 @@
-<!doctype html>
-<html>
-<head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
-    <style>
-        body        { padding-top:80px; }
-    </style>
-</head>
-<body>
-<div class="container">
+<% include ./partials/header %>
 
-    <div class="jumbotron text-center">
-        <form method="post" action="/login">
-            <input type='text', name="username", placeholder='Enter Username'>
-            <input type='password', name="password", placeholder='Password'>
-            <input type="submit">
-            <a href="/">CANCEL</a>
-        </form>
-    </div>
+<div class="container">
+  <form method="post" action="/login">
+    <input class="textboxlogin" type='text', name="username", placeholder='Enter Username'>
+    <input class="textboxlogin" type='password', name="password", placeholder='Password'>
+    <input class="btn btn-default btn-lg" type="submit">
+    <a href="/">CANCEL</a>
+  </form>
 </div>
-</body>
-</html>
+
+<% include ./partials/footer %>
