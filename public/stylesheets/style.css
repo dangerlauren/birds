@@ -38,3 +38,7 @@ a {
             background-color: black;
             color: white;
         }
+
+.thumbnail {
+  height: 150px;
+}
