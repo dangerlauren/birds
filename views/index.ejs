@@ -31,11 +31,23 @@
               </div>
               <div class="modal-body">
                 <h1>Birds</h1>
-                <%for(var i=0;i<bird.length;i++){%>
-                <p>Name: <%= bird[i].name %></p>
-                <p>Latin Name: <%= bird[i].latin %></p>
-                <img src="<%= bird[i].images[0].url %>" class="img-responsive" width="150px">
-                <% } %>
+                    <div class="row">
+
+                    <%for(var i=0;i<bird.length;i++){%>
+
+                      <div class="col-xs-6 col-md-4">
+                        <a href="#" class="thumbnail">
+                          <img src="<%= bird[i].images[0].url %>" alt="">
+
+                          <div class="caption">
+                            <h3 class="birdnamejquery"><%= bird[i].name %></h3>
+                          </div>
+                        </a>
+                      </div>
+
+                    <% } %>
+
+                    </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -50,6 +62,16 @@
     <% } %>
 
 </div>
+
+<script>
+    $(document).ready(function(){
+        $('.birdnamejquery').click(function(){
+            var title = $(this).text();
+            console.log(title);
+        });
+    });
+</script>
+
 
 <% include ./partials/footer %>
 
