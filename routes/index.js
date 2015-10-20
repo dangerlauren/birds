@@ -4,8 +4,20 @@ var User = require('../models/user');
 var router = express.Router();
 
 
-router.get('/', function (req, res) {
-    res.render('index', { user : req.user });
+router.get('/', function(req, res, next) {
+  
+    Bird.count(function(err, count) {
+        if(err){ console.log(err);
+        
+        }else{
+            Bird.find({}, function(err, birddata){
+                res.render('index', { 
+                        title: 'What the Duck?', 
+                        bird: birddata
+                });
+            });
+        }       
+    });
 });
 
 router.get('/register', function(req, res) {
