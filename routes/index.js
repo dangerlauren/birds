@@ -1,22 +1,17 @@
 var express = require('express');
 var passport = require('passport');
 var User = require('../models/user');
+var Bird = require('../models/bird');
 var router = express.Router();
 
 
-router.get('/', function(req, res, next) {
-  
-    Bird.count(function(err, count) {
-        if(err){ console.log(err);
-        
-        }else{
-            Bird.find({}, function(err, birddata){
-                res.render('index', { 
-                        title: 'What the Duck?', 
-                        bird: birddata
-                });
-            });
-        }       
+router.get('/', function (req, res) {
+    Bird.find({}, function(err, birddata){
+        res.render('index', { 
+                user : req.user,
+                title: 'What the Duck?', 
+                bird: birddata
+        });
     });
 });
 
