@@ -6,7 +6,6 @@ var birdSchema = new Schema({
     name: { type: String, required: true },
     latin: { type: String, required: true },
     images: { type: String, required: true },
-    
 });
 
 var Bird = mongoose.model('Bird', birdSchema);

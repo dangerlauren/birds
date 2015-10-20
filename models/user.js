@@ -1,15 +1,14 @@
-// User model w/ Mongoose
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
 var Schema = mongoose.Schema;
+var passportLocalMongoose = require('passport-local-mongoose');
 
-var userSchema = new Schema({
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: String
+var UserSchema = new Schema({
+    username: String,
+    password: String,
+    firstName: String,
+    lastName: String
 });
 
-var User = mongoose.model('User', userSchema);
+UserSchema.plugin(passportLocalMongoose);
 
-// Make this available to our other files
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);
