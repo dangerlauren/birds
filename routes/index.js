@@ -2,6 +2,7 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var Bird = require('../models/bird');
+var Sighting = require('../models/sighting');
 var router = express.Router();
 
 
@@ -45,6 +46,14 @@ router.get('/logout', function(req, res) {
 
 router.get('/ping', function(req, res){
     res.status(200).send("pong!");
+});
+
+
+router.post('/newSighting', function(req, res) {
+    var insertDocument = function(){
+        Sighting.insert({accountUsername: req.user.username, birdName: req.body.title});
+    }
+    insertDocument();
 });
 
 module.exports = router;

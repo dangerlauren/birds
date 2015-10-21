@@ -67,7 +67,11 @@
     $(document).ready(function(){
         $('.birdnamejquery').click(function(){
             var title = $(this).text();
-            console.log(title);
+            $.ajax({
+                url: 'http://localhost:3000/newSighting',
+                method: "POST",
+                data: {title: title}
+            });
         });        
     });
 </script>
