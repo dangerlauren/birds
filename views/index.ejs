@@ -3,12 +3,8 @@
 
 <div class="container">
 
-    <% if(!user) { %>
-        <h1>WHAT THE DUCK</h1>
-
-        <a href="/login">LOGIN</a>
-
-        <a href="/register">SIGNUP</a>
+     <% if(!user) { %>
+        <h1 id="hero">what the duck</h1>
     <% } %>
 
     <% if(user) { %>
@@ -30,6 +26,7 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
               </div>
               <div class="modal-body">
+
                 <h1>Birds</h1>
                     <div class="row">
 
@@ -48,6 +45,7 @@
                     <% } %>
 
                     </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -56,6 +54,14 @@
             </div>
           </div>
         </div>
+
+        <section>
+        <h3>Birds You've Seen</h3>
+<!--         <% for (var i = 0; i < bird.length; i++) { %>
+            <h6><%= bird[i].name %></h6>
+            <img src="<%= bird[i].images %>" class="img-responsive" width="150px">
+        <% } %> -->
+        </section>
 
         <a href="/logout">LOGOUT</a>
 
