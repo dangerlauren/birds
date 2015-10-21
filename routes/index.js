@@ -7,9 +7,9 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     Bird.find({}, function(err, birddata){
-        res.render('index', { 
+        res.render('index', {
             user : req.user,
-            title: 'What the Duck?', 
+            title: 'What the Duck?',
             bird: birddata
         });
     });
@@ -24,7 +24,6 @@ router.post('/register', function(req, res) {
         if (err) {
             return res.render('register', { account : account });
         }
-
         passport.authenticate('local')(req, res, function () {
             res.redirect('/');
         });

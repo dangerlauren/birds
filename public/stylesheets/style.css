@@ -17,7 +17,8 @@ body {
   
   /* This is what makes the background image rescale based
      on the container's size */
-  background-size: cover;
+  /*background-size: cover;*/
+  background-size: 100%;
   
   /* Set a background color that will be displayed
      while the background image is loading */
@@ -26,6 +27,19 @@ body {
 
 a {
   color: #00B7FF;
+}
+
+.navbar .duck {
+	max-width: 50px;
+	max-height: 50px;
+	margin-top: -28%;
+  margin-right: 10%;
+}
+
+#hero {
+	text-align: center;
+	margin-top: 16%;
+	font-size: 2em;
 }
 
 .textboxlogin {
@@ -38,3 +52,7 @@ a {
             background-color: black;
             color: white;
         }
+
+.thumbnail {
+  height: 150px;
+}
