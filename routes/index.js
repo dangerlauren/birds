@@ -7,11 +7,19 @@ var router = express.Router();
 
 
 router.get('/', function (req, res) {
+    if(!req.user) {
+        res.render('index', {title: 'What the Duck?'});
+        return false;
+    }
+    
     Bird.find({}, function(err, birddata){
-        res.render('index', {
-            user : req.user,
-            title: 'What the Duck?',
-            bird: birddata
+        Sighting.find({accountUsername: req.user.username}, function(err,stuff){
+            res.render('index', {
+                user : req.user,
+                title: 'What the Duck?',
+                bird: birddata,
+                userBirds: stuff
+            });
         });
     });
 });
@@ -54,11 +62,16 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
-    var insertDocument = function(){
-        Sighting.insert({accountUsername: req.user.username, birdName: req.body.title});
-    }
-    insertDocument();
+
+    var newSighting = Sighting({
+        accountUsername: req.user.username, 
+        birdName: req.body.title
+    });
+        
+    newSighting.save(function(err){
+        if(err) console.log(err);
+        res.render('index');
+    });
 });
 
 module.exports = router;
-
