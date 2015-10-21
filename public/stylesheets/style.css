@@ -71,7 +71,20 @@ a {
 }
 
 .thumbnail {
-  height: 150px;
+
+  height: 200px;
+
+}
+
+.btn-default{
+
+text-align: center
+
+}
+
+.caption {
+  padding: 50px;
+  text-align: center
 }
 
 #map {
@@ -79,10 +92,3 @@ a {
   height: 400px;
   background-color: #CCC;
 }
-
-.thumbnailImage {
-  
-}
-
-
-
