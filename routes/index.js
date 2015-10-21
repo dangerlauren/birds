@@ -4,6 +4,7 @@ var Account = require('../models/account');
 var Bird = require('../models/bird');
 var Sighting = require('../models/sighting');
 var router = express.Router();
+var validator = require('validator');
 
 
 router.get('/', function (req, res) {
@@ -25,18 +26,34 @@ router.get('/', function (req, res) {
 });
 
 router.get('/register', function(req, res) {
-    res.render('register', { });
+    res.render('register', { 
+     username: "", 
+     error: ""
+    });
 });
 
 router.post('/register', function(req, res) {
+  var val = validator.isEmail(req.body.username);
+
+  if (val) {
+
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-        if (err) {
-            return res.render('register', { account : account });
-        }
-        passport.authenticate('local')(req, res, function () {
-            res.redirect('/');
-        });
+      if (err) {
+          return res.render('register', { account : account, error: err, username: req.body.username });
+      }
+      passport.authenticate('local')(req, res, function () {
+          res.redirect('/');
+      });
     });
+  } 
+
+  else {
+
+    res.render('register', {
+     username: req.body.username, 
+     error: "Please enter a valid email"
+     });
+  }
 });
 
 router.get('/login', function(req, res) {
