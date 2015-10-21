@@ -11,7 +11,7 @@ router.get('/', function (req, res) {
         res.render('index', {title: 'What the Duck?'});
         return false;
     }
-    
+
     Bird.find({}, function(err, birddata){
         Sighting.find({accountUsername: req.user.username}, function(err,stuff){
             res.render('index', {
@@ -64,10 +64,10 @@ router.get('/ping', function(req, res){
 router.post('/newSighting', function(req, res) {
 
     var newSighting = Sighting({
-        accountUsername: req.user.username, 
+        accountUsername: req.user.username,
         birdName: req.body.title
     });
-        
+
     newSighting.save(function(err){
         if(err) console.log(err);
         res.render('index');
