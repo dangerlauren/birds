@@ -38,6 +38,10 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
 });
 
+router.get('/map', function(req, res) {
+    res.render('map', { user : req.user });
+});
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
