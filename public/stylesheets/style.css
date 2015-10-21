@@ -37,10 +37,10 @@ a {
 	font-size: 2em;
 }
 
-.register {
+.register, .login {
 	margin-top: 20%;
 	padding: 5% 5%;
-	color: white;
+	color: black;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	-moz-border-radius: 10px 10px 10px 10px;
 	border-radius: 10px 10px 10px 10px;
@@ -58,27 +58,9 @@ a {
 	color: black;
 }
 
-.textboxlogin {
-	margin-top: 25%;
-  opacity: 0.1;
-  height: 50px;
-} 
-
-
-.btn-default {
-  background-color: black;
-  color: white;
-}
-
 .thumbnail {
 
   height: 200px;
-
-}
-
-.btn-default{
-
-text-align: center
 
 }
 
