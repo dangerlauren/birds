@@ -79,6 +79,7 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
+    var newSighting = Sighting({
         accountUsername: req.user.username,
         birdName: req.body.title,
         birdImage: req.body.birdImage
