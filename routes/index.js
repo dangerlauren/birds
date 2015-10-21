@@ -66,10 +66,8 @@ router.post('/newSighting', function(req, res) {
         accountUsername: req.user.username, 
         birdName: req.body.title,
         birdImage: req.body.birdImage
-    });
-        
+    }); 
     newSighting.save(function(err){
-
         if(err) console.log(err);
         res.render('index');
     });
