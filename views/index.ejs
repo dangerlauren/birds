@@ -3,12 +3,8 @@
 
 <div class="container">
 
-    <% if(!user) { %>
-        <h1>WHAT THE DUCK</h1>
-
-        <a href="/login">LOGIN</a>
-
-        <a href="/register">SIGNUP</a>
+     <% if(!user) { %>
+        <h1 id="hero">what the duck</h1>
     <% } %>
 
     <% if(user) { %>
@@ -30,14 +26,15 @@
                 <h4 class="modal-title" id="myModalLabel">Modal title</h4>
               </div>
               <div class="modal-body">
+
                 <h1>Birds</h1>
                     <div class="row">
 
-                    <%for(var i=0;i<bird.length;i++){%>  
-                      
+                    <%for(var i=0;i<bird.length;i++){%>
+
                       <div class="col-xs-6 col-md-4">
                         <a href="#" class="thumbnail">
-                          <img src="<%= bird[i].images %>" alt="">
+                          <img src="<%= bird[i].images[0].url %>" alt="">
 
                           <div class="caption">
                             <h3 class="birdnamejquery"><%= bird[i].name %></h3>
@@ -48,6 +45,7 @@
                     <% } %>
 
                     </div>
+
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -57,8 +55,16 @@
           </div>
         </div>
 
+        <section>
+        <h3>Birds You've Seen</h3>
+<!--         <% for (var i = 0; i < bird.length; i++) { %>
+            <h6><%= bird[i].name %></h6>
+            <img src="<%= bird[i].images %>" class="img-responsive" width="150px">
+        <% } %> -->
+        </section>
+
         <a href="/logout">LOGOUT</a>
-        
+
     <% } %>
 
 </div>
@@ -73,6 +79,7 @@
                 data: {title: title}
             });
         });        
+
     });
 </script>
 

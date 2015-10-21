@@ -36,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use('/', routes);
+app.use('/banana', users);
 
 // passport config
 var Account = require('./models/account');

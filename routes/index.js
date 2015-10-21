@@ -8,9 +8,9 @@ var router = express.Router();
 
 router.get('/', function (req, res) {
     Bird.find({}, function(err, birddata){
-        res.render('index', { 
+        res.render('index', {
             user : req.user,
-            title: 'What the Duck?', 
+            title: 'What the Duck?',
             bird: birddata
         });
     });
@@ -39,6 +39,10 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
 });
 
+router.get('/map', function(req, res) {
+    res.render('map', { user : req.user });
+});
+
 router.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
@@ -57,3 +61,4 @@ router.post('/newSighting', function(req, res) {
 });
 
 module.exports = router;
+
