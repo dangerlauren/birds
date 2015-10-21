@@ -37,10 +37,10 @@ a {
 	font-size: 2em;
 }
 
-.register {
+.register, .login {
 	margin-top: 20%;
 	padding: 5% 5%;
-	color: white;
+	color: black;
 	-webkit-border-radius: 10px 10px 10px 10px;
 	-moz-border-radius: 10px 10px 10px 10px;
 	border-radius: 10px 10px 10px 10px;
@@ -58,20 +58,15 @@ a {
 	color: black;
 }
 
-.textboxlogin {
-	margin-top: 25%;
-  opacity: 0.1;
-  height: 50px;
-} 
+.thumbnail {
 
+  height: 200px;
 
-.btn-default {
-  background-color: black;
-  color: white;
 }
 
-.thumbnail {
-  height: 150px;
+.caption {
+  padding: 50px;
+  text-align: center
 }
 
 #map {
@@ -80,9 +75,29 @@ a {
   background-color: #CCC;
 }
 
-.thumbnailImage {
-  
-}
+<!-- BELOW IS THE GEOCODING CODE STUFFS -->
+
+
+/*html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}*/
+
+/*#floating-panel {
+  position: absolute;
+  top: 10px;
+  left: 25%;
+  z-index: 5;
+  background-color: #fff;
+  padding: 5px;
+  border: 1px solid #999;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+}*/
 
 
 
+<!-- ABOVE IS THE GEOCODING CODE THINGY -->
