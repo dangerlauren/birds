@@ -17,23 +17,12 @@
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
           Add a bird
         </button>
-        <div>
-            <br>
-        </div>    
 
-        <div class="box">
-            <h3>My List of Birds</h3>
+        <h2>User's birds</h2>
+        <div id="userBirdList">
             <%for(var x=0;x<userBirds.length;x++){%>
-
-              <div class="birdName">
-                <%= userBirds[x].birdName %>
-              </div>
-
-              <div class="birdImage">
-              <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
-              <div>
-              <br>
-
+              <% var bird= userBirds[x] %>
+              <% include ./partials/userBird %>
             <% } %>
         </div>
 
@@ -48,13 +37,12 @@
               <div class="modal-body">
                     <div class="row">
 
-                    <%for(var i=0;i<bird.length;i++){%>
+                    <%for(var i=0;i<birds.length;i++){%>
 
                       <div class="col-xs-6 col-md-4">
                         <div class="thumbnail">
-                          <img class="thumbnailImage" src="<%= bird[i].images[0].url %>">
+                          <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
                           <div class="caption">
-                            <h4><%= bird[i].name %></h4>
                               <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 <button type="button" class="btn btn-default">ADD</button>
                                 <button type="button" class="btn btn-default">ALT VIEW</button>
@@ -70,7 +58,7 @@
               </div>
             </div>
           </div>
-        </div>  
+        </div>
 
     <% } %>
 
@@ -83,11 +71,12 @@
             var image = $(this).children('img').attr('src');
             $.ajax({
                 url: 'http://localhost:3000/newSighting',
-                method: "POST",
+                method: "post",
                 data: {title: title, birdImage: image}
+            }).done(function(newBird) {
+              $("#userBirdList").prepend(newBird);
             });
-            location.reload();
-        });        
+        });
     });
 </script>
 

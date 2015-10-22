@@ -5,6 +5,8 @@ var Bird = require('../models/bird');
 var Sighting = require('../models/sighting');
 var router = express.Router();
 var validator = require('validator');
+var fs = require('fs');
+var ejs = require('ejs');
 
 
 router.get('/', function (req, res) {
@@ -15,19 +17,19 @@ router.get('/', function (req, res) {
 
     Bird.find({}, function(err, birddata){
         Sighting.find({accountUsername: req.user.username}, function(err, stuff){
-                res.render('index', {
-                    user : req.user,
-                    title: 'What the Duck?',
-                    bird: birddata,
-                    userBirds: stuff,
-                });
+            res.render('index', {
+                user : req.user,
+                title: 'What the Duck?',
+                birds: birddata,
+                userBirds: stuff,
+            });
         });
     });
 });
 
 router.get('/register', function(req, res) {
-    res.render('register', { 
-     username: "", 
+    res.render('register', {
+     username: "",
      error: ""
     });
 });
@@ -45,12 +47,12 @@ router.post('/register', function(req, res) {
           res.redirect('/');
       });
     });
-  } 
+  }
 
   else {
 
     res.render('register', {
-     username: req.body.username, 
+     username: req.body.username,
      error: "Please enter a valid email"
      });
   }
@@ -80,14 +82,19 @@ router.get('/ping', function(req, res){
 
 router.post('/newSighting', function(req, res) {
     var newSighting = Sighting({
-        accountUsername: req.user.username, 
+        accountUsername: req.user.username,
         birdName: req.body.title,
         birdImage: req.body.birdImage
-    }); 
+    });
+
+    console.log("new sighting",   newSighting);
     newSighting.save(function(err){
         if(err) console.log(err);
-        res.render('index');
+        var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+        var html = compiled({ bird:newSighting });
+        res.send(html);
     });
+
 });
 
 module.exports = router;
