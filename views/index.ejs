@@ -17,8 +17,14 @@
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
           Add a bird
         </button>
+        <div>
+            <br>
+        </div>    
 
-        <h2>User's birds</h2>
+        <div class="box">
+          <h3>My List of Birds</h3>
+
+  
         <div id="userBirdList">
             <%for(var x=0;x<userBirds.length;x++){%>
               <% var bird= userBirds[x] %>
@@ -43,6 +49,7 @@
                         <div class="thumbnail">
                           <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
                           <div class="caption">
+                            <h4><%= birds[i].name %></h4>
                               <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 <button type="button" class="btn btn-default">ADD</button>
                                 <button type="button" class="btn btn-default">ALT VIEW</button>
