@@ -15,12 +15,12 @@ router.get('/', function (req, res) {
 
     Bird.find({}, function(err, birddata){
         Sighting.find({accountUsername: req.user.username}, function(err, stuff){
-                res.render('index', {
-                    user : req.user,
-                    title: 'What the Duck?',
-                    bird: birddata,
-                    userBirds: stuff,
-                });
+            res.render('index', {
+                user : req.user,
+                title: 'What the Duck?',
+                bird: birddata,
+                userBirds: stuff,
+            });
         });
     });
 });
@@ -84,10 +84,19 @@ router.post('/newSighting', function(req, res) {
         birdName: req.body.title,
         birdImage: req.body.birdImage
     });
+
     newSighting.save(function(err){
         if(err) console.log(err);
-        res.render('index');
     });
+
+    res.send.render('./partials/userBird', {
+      x: 0,
+      userBirds : [{
+        birdName: req.body.title,
+        birdImage: req.body.title.birdImage
+      }]
+    });
+
 });
 
 module.exports = router;
