@@ -20,10 +20,7 @@
         <div>
             <h2>User's birds</h2>
             <%for(var x=0;x<userBirds.length;x++){%>
-              <div>
-                <%= userBirds[x].birdName %>
-              </div>
-              <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
+              <% include ./partials/userBird %>
             <% } %>
         </div>
 
