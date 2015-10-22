@@ -74,7 +74,7 @@
 <script>
     $(document).ready(function(){
         $('.thumbnail').click(function(){
-            var title = $(this).text();
+            var title = $(this).find('h4').text();
             var image = $(this).children('img').attr('src');
             $.ajax({
                 url: 'http://localhost:3000/newSighting',
