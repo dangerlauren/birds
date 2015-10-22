@@ -19,7 +19,7 @@ router.get('/', function (req, res) {
             res.render('index', {
                 user : req.user,
                 title: 'What the Duck?',
-                bird: birddata,
+                birds: birddata,
                 userBirds: stuff
             });
         });

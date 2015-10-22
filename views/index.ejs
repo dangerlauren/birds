@@ -21,15 +21,18 @@
             <br>
         </div>    
 
+
+
         <div class="box">
+
             <h3>My List of Birds</h3>
-            <%for(var x=0;x<userBirds.length;x++){%>
-              <div class="birdName">
-                <%= userBirds[x].birdName %>
-              </div>
-              <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
-            <% } %>
-        </div>
+
+            <div id="userBirdList">
+                <%for(var x=0;x<userBirds.length;x++){%>
+                    <%= userBirds[x].birdName %>
+                    <% include ./partials/userBird %>
+                <% } %>
+            </div>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -43,13 +46,17 @@
               <div class="modal-body">
                     <div class="row">
 
-                    <%for(var i=0;i<bird.length;i++){%>
+                    <%for(var i=0;i<birds.length;i++){%>
 
                       <div class="col-xs-6 col-md-4">
                         <div class="thumbnail">
-                          <img class="thumbnailImage" src="<%= bird[i].images[0].url %>">
+                          <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
                           <div class="caption">
-                            <h4><%= bird[i].name %></h4>
+                            <h4><%= birds[i].name %></h4>
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default">ADD</button>
+                                <button type="button" class="btn btn-default">ALT VIEW</button>
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -96,7 +103,7 @@
 <script>
 $(document).ready(function(){
     $('.thumbnail').click(function(){
-        var title = $(this).text().trim();
+        var title = $(this).find('h4').text().trim();
         var image = $(this).children('img').attr('src');
         var location = $(".locationText").val();
         $.ajax({
