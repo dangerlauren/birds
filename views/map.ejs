@@ -1,50 +1,41 @@
 <% include ./partials/header %>
+  
+  <script>
+    function initMap() {
+      var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 20,
+        center: {lat: 30.2500, lng: -97.7500}
+      });
+      var geocoder = new google.maps.Geocoder();
 
-<div class="container">
-
-
-	<div id="map">
-
-	<p>HELLLLLLOOOOO</p>
-
-	</div>
-
-
-</div>
-
-<script>
-var geocoder;
-  var map;
-  function initialize() {
-    geocoder = new google.maps.Geocoder();
-    var latlng = new google.maps.LatLng(-34.397, 150.644);
-    var mapOptions = {
-      zoom: 8,
-      center: latlng
+      document.getElementById('submit').addEventListener('click', function() {
+        geocodeAddress(geocoder, map);
+      });
     }
-    map = new google.maps.Map(document.getElementById("map"), mapOptions);
-  }
 
-  function codeAddress() {
-    var address = document.getElementById("address").value;
-    geocoder.geocode( { 'address': address}, function(results, status) {
-      if (status == google.maps.GeocoderStatus.OK) {
-        map.setCenter(results[0].geometry.location);
-        var marker = new google.maps.Marker({
-            map: map,
+    function geocodeAddress(geocoder, resultsMap) {
+      var address = document.getElementById('address').value;
+      geocoder.geocode({'address': address}, function(results, status) {
+        if (status === google.maps.GeocoderStatus.OK) {
+          resultsMap.setCenter(results[0].geometry.location);
+          var marker = new google.maps.Marker({
+            map: resultsMap,
             position: results[0].geometry.location
-        });
-      } else {
-        alert("Geocode was not successful for the following reason: " + status);
-      }
-    });
-  }
-</script>
+          });
+        } else {
+          alert('Geocode was not successful for the following reason: ' + status);
+        }
+      });
+    }
 
-<body onload="initialize()">
-  <div>
-    <input id="address" type="textbox" value="Sydney, NSW">
-    <input type="button" value="Encode" onclick="codeAddress()">
+  </script>
+
+  <div id="floating-panel">
+      <input id="address" type="textbox" value="Austin, USA">
+      <input id="submit" type="button" value="Geocode">
   </div>
+  <div id="map"></div>
+
+  
 
 <% include ./partials/footer %>
