@@ -1,5 +1,5 @@
 body {
-	padding-top: 70px;
+    padding-top: 70px;
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   /* Location of the image */
@@ -25,72 +25,72 @@ a {
 }
 
 #welcome {
-	padding-top: 3%;
-	color: white;
-	font-size: 1.5em;
-	font-family: 'Oxygen', sans-serif;
+    padding-top: 3%;
+    color: white;
+    font-size: 1.5em;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .box {
-	/*background: rgba(96, 75, 48, 0.5);
-	background: rgba(212, 211, 211, 0.6);*/
-	background: rgba(212, 200, 188, 0.6);
-	padding: 1.5%;
-	-webkit-border-radius: 10px 10px 10px 10px;
-	-moz-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
+    /*background: rgba(96, 75, 48, 0.5);
+    background: rgba(212, 211, 211, 0.6);*/
+    background: rgba(212, 200, 188, 0.6);
+    padding: 1.5%;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
 }
 
 h1 {
-	font-family: Sarina;
-	color: #BE9B77;
-	font-size: 5em;
-	letter-spacing: 0.4em;
+    font-family: Sarina;
+    color: #BE9B77;
+    font-size: 5em;
+    letter-spacing: 0.4em;
 }
 
 h3 {
-	color: white;
-	font-family: 'Oxygen', sans-serif;
-	margin-top: 0;
+    color: white;
+    font-family: 'Oxygen', sans-serif;
+    margin-top: 0;
 }
 
 .birdName {
-	color: white;
-	font-family: 'Oxygen', sans-serif;
+    color: white;
+    font-family: 'Oxygen', sans-serif;
 }
 
 .navbar .duck {
-	max-width: 50px;
-	max-height: 50px;
-	margin-top: -28%;
+    max-width: 50px;
+    max-height: 50px;
+    margin-top: -28%;
   margin-right: 10%;
 }
 
 #hero {
-	text-align: center;
-	margin-top: 16%;
-	font-size: 2em;
+    text-align: center;
+    margin-top: 16%;
+    font-size: 2em;
 }
 
 .register, .login {
-	margin-top: 20%;
-	padding: 5% 5%;
-	color: black;
-	-webkit-border-radius: 10px 10px 10px 10px;
-	-moz-border-radius: 10px 10px 10px 10px;
-	border-radius: 10px 10px 10px 10px;
-	background:rgba(142,142,143,0.3);
-	-webkit-box-shadow: #4F4029 8px 8px 8px;
-	-moz-box-shadow: #4F4029 8px 8px 8px; 
-	box-shadow: #4F4029 8px 8px 8px;
+    margin-top: 20%;
+    padding: 5% 5%;
+    color: black;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    -moz-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+    background:rgba(142,142,143,0.3);
+    -webkit-box-shadow: #4F4029 8px 8px 8px;
+    -moz-box-shadow: #4F4029 8px 8px 8px; 
+    box-shadow: #4F4029 8px 8px 8px;
 }
 
 .s-text {
-	font-size: 1.5em;
+    font-size: 1.5em;
 }
 
 .s-submit {
-	color: black;
+    color: black;
 }
 
 .thumbnail {
@@ -100,8 +100,8 @@ h3 {
 }
 
 .modal-title {
-	text-align: center;
-	color: black;
+    text-align: center;
+    color: black;
 }
 
 h4 {
