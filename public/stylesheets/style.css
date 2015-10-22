@@ -24,6 +24,41 @@ a {
   color: #00B7FF;
 }
 
+#welcome {
+	padding-top: 3%;
+	color: white;
+	font-size: 1.5em;
+	font-family: 'Oxygen', sans-serif;
+}
+
+.box {
+	/*background: rgba(96, 75, 48, 0.5);
+	background: rgba(212, 211, 211, 0.6);*/
+	background: rgba(212, 200, 188, 0.6);
+	padding: 1.5%;
+	-webkit-border-radius: 10px 10px 10px 10px;
+	-moz-border-radius: 10px 10px 10px 10px;
+	border-radius: 10px 10px 10px 10px;
+}
+
+h1 {
+	font-family: Sarina;
+	color: #BE9B77;
+	font-size: 5em;
+	letter-spacing: 0.4em;
+}
+
+h3 {
+	color: white;
+	font-family: 'Oxygen', sans-serif;
+	margin-top: 0;
+}
+
+.birdName {
+	color: white;
+	font-family: 'Oxygen', sans-serif;
+}
+
 .navbar .duck {
 	max-width: 50px;
 	max-height: 50px;
@@ -64,9 +99,15 @@ a {
 
 }
 
-.caption {
+.modal-title {
+	text-align: center;
+	color: black;
+}
+
+h4 {
   padding: 50px;
-  text-align: center
+  text-align: center;
+  color: black;
 }
 
 #map {
