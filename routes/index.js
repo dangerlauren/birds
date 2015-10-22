@@ -5,6 +5,8 @@ var Bird = require('../models/bird');
 var Sighting = require('../models/sighting');
 var router = express.Router();
 var validator = require('validator');
+var fs = require('fs');
+var ejs = require('ejs');
 
 
 router.get('/', function (req, res) {
@@ -18,7 +20,7 @@ router.get('/', function (req, res) {
             res.render('index', {
                 user : req.user,
                 title: 'What the Duck?',
-                bird: birddata,
+                birds: birddata,
                 userBirds: stuff,
             });
         });
@@ -85,16 +87,12 @@ router.post('/newSighting', function(req, res) {
         birdImage: req.body.birdImage
     });
 
+    console.log("new sighting",   newSighting);
     newSighting.save(function(err){
         if(err) console.log(err);
-    });
-
-    res.send.render('./partials/userBird', {
-      x: 0,
-      userBirds : [{
-        birdName: req.body.title,
-        birdImage: req.body.title.birdImage
-      }]
+        var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+        var html = compiled({ bird:newSighting });
+        res.send(html);
     });
 
 });

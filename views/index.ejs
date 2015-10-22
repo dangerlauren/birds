@@ -17,9 +17,10 @@
           Add a bird
         </button>
 
-        <div>
-            <h2>User's birds</h2>
+        <h2>User's birds</h2>
+        <div id="userBirdList">
             <%for(var x=0;x<userBirds.length;x++){%>
+              <% var bird= userBirds[x] %>
               <% include ./partials/userBird %>
             <% } %>
         </div>
@@ -37,13 +38,13 @@
                 <h1>Birds</h1>
                     <div class="row">
 
-                    <%for(var i=0;i<bird.length;i++){%>
+                    <%for(var i=0;i<birds.length;i++){%>
 
                       <div class="col-xs-6 col-md-4">
                         <div class="thumbnail">
-                          <img class="thumbnailImage" src="<%= bird[i].images[0].url %>">
+                          <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
                           <div class="caption">
-                            <h3><%= bird[i].name %></h3>
+                            <h3><%= birds[i].name %></h3>
                           </div>
                         </div>
                       </div>
@@ -76,13 +77,11 @@
             var image = $(this).children('img').attr('src');
             $.ajax({
                 url: 'http://localhost:3000/newSighting',
-                method: "POST",
-                data: {title: title, birdImage: image},
-                success (){
-
-                }
+                method: "post",
+                data: {title: title, birdImage: image}
+            }).done(function(newBird) {
+              $("#userBirdList").prepend(newBird);
             });
-            location.reload();
         });
     });
 </script>
