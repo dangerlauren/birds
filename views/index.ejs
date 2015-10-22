@@ -38,6 +38,7 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Birds</h4>
+                <input type="text" class="locationText">
               </div>
               <div class="modal-body">
                     <div class="row">
@@ -65,28 +66,55 @@
             </div>
           </div>
         </div>
-
-        
-
-        
-
     <% } %>
 
 </div>
 
-<script>
-    $(document).ready(function(){
-        $('.thumbnail').click(function(){
-            var title = $(this).text();
-            var image = $(this).children('img').attr('src');
-            $.ajax({
-                url: 'http://localhost:3000/newSighting',
-                method: "POST",
-                data: {title: title, birdImage: image}
+
+
+<% if(locals.user){ %>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
+<div id="map"></div>
+    <script>
+        function initMap(){
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 20,
+                center: {lat: 30.2500, lng: -97.7500}
             });
-            location.reload();
-        });        
-    });
+            var sightings = <%- JSON.stringify(userBirds) %>;
+            for(var i = 0; i < sightings.length; i++){
+                var latlng = new google.maps.LatLng(sightings[i].lat, sightings[i].lng);
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: latlng,
+                    title: sightings[i].birdName
+                });
+            }
+        }
+    </script>
+<% } %>
+<script>
+$(document).ready(function(){
+    $('.thumbnail').click(function(){
+        var title = $(this).text().trim();
+        var image = $(this).children('img').attr('src');
+        var location = $(".locationText").val();
+        $.ajax({
+            url: '/newSighting',
+            method: "POST",
+            data: {title: title, birdImage: image, location: location},
+        }).done(function(sighting){
+            console.log(sighting);
+            var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
+            map.setCenter(latlng);
+            var marker = new google.maps.Marker({
+                map: map,
+                position: latlng,
+                title: sighting.birdName
+            });
+        });
+    });        
+});
 </script>
 
 

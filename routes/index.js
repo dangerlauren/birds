@@ -5,7 +5,7 @@ var Bird = require('../models/bird');
 var Sighting = require('../models/sighting');
 var router = express.Router();
 var validator = require('validator');
-
+var geocoder = require('geocoder');
 
 router.get('/', function (req, res) {
     if(!req.user) {
@@ -15,12 +15,13 @@ router.get('/', function (req, res) {
 
     Bird.find({}, function(err, birddata){
         Sighting.find({accountUsername: req.user.username}, function(err, stuff){
-                res.render('index', {
-                    user : req.user,
-                    title: 'What the Duck?',
-                    bird: birddata,
-                    userBirds: stuff,
-                });
+            console.log("THIS IS STUFF" , stuff);
+            res.render('index', {
+                user : req.user,
+                title: 'What the Duck?',
+                bird: birddata,
+                userBirds: stuff
+            });
         });
     });
 });
@@ -52,7 +53,7 @@ router.post('/register', function(req, res) {
     res.render('register', {
      username: req.body.username, 
      error: "Please enter a valid email"
-     });
+    });
   }
 });
 
@@ -62,10 +63,6 @@ router.get('/login', function(req, res) {
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
-});
-
-router.get('/map', function(req, res) {
-    res.render('map', { user : req.user });
 });
 
 router.get('/logout', function(req, res) {
@@ -79,14 +76,22 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
-    var newSighting = Sighting({
-        accountUsername: req.user.username, 
-        birdName: req.body.title,
-        birdImage: req.body.birdImage
-    }); 
-    newSighting.save(function(err){
-        if(err) console.log(err);
-        res.render('index');
+    geocoder.geocode(req.body.location, function ( err, data ) {
+        if(!err){
+            var lat = data.results[0].geometry.location.lat;
+            var lng = data.results[0].geometry.location.lng;
+            var newSighting = Sighting({
+                accountUsername: req.user.username, 
+                birdName: req.body.title,
+                birdImage: req.body.birdImage,
+                lat: lat,
+                lng: lng
+            }); 
+            newSighting.save(function(err){
+                if(err) console.log(err);
+                res.json(newSighting);
+            });
+        }   
     });
 });
 
