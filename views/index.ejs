@@ -24,10 +24,16 @@
         <div class="box">
             <h3>My List of Birds</h3>
             <%for(var x=0;x<userBirds.length;x++){%>
+
               <div class="birdName">
                 <%= userBirds[x].birdName %>
               </div>
+
+              <div class="birdImage">
               <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
+              <div>
+              <br>
+
             <% } %>
         </div>
 
@@ -49,6 +55,10 @@
                           <img class="thumbnailImage" src="<%= bird[i].images[0].url %>">
                           <div class="caption">
                             <h4><%= bird[i].name %></h4>
+                              <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <button type="button" class="btn btn-default">ADD</button>
+                                <button type="button" class="btn btn-default">ALT VIEW</button>
+                              </div>
                           </div>
                         </div>
                       </div>
@@ -58,17 +68,9 @@
                     </div>
 
               </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
             </div>
           </div>
-        </div>
-
-        
-
-        
+        </div>  
 
     <% } %>
 

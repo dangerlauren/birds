@@ -22,6 +22,11 @@ body {
 
 a {
   color: #00B7FF;
+
+}
+
+.hover:hover {
+	background: rgba(68, 78, 58, 0.4);
 }
 
 #welcome {
@@ -32,8 +37,6 @@ a {
 }
 
 .box {
-    /*background: rgba(96, 75, 48, 0.5);
-    background: rgba(212, 211, 211, 0.6);*/
     background: rgba(212, 200, 188, 0.6);
     padding: 1.5%;
     -webkit-border-radius: 10px 10px 10px 10px;
@@ -57,6 +60,8 @@ h3 {
 .birdName {
     color: white;
     font-family: 'Oxygen', sans-serif;
+    padding-bottom: 1%;
+    padding-top: 1%;
 }
 
 .navbar .duck {
@@ -94,20 +99,24 @@ h3 {
 }
 
 .thumbnail {
+  height: 210px;
+}
 
-  height: 200px;
-
+.thumbnailImage {
+	min-height: 120px;
 }
 
 .modal-title {
     text-align: center;
     color: black;
+    font-family: 'Oxygen', sans-serif;
 }
 
 h4 {
-  padding: 50px;
+  /*padding: 50px;*/
   text-align: center;
   color: black;
+  font-family: 'Oxygen', sans-serif;
 }
 
 #map {
