@@ -63,11 +63,6 @@
             </div>
           </div>
         </div>
-
-        
-
-        
-
     <% } %>
 
 </div>
@@ -80,10 +75,10 @@
             $.ajax({
                 url: 'http://localhost:3000/newSighting',
                 method: "POST",
-                data: {title: title, birdImage: image}
+                data: {title: title,birdImage: image}
             });
-            location.reload();
-        });        
+        }); 
+
     });
 </script>
 
