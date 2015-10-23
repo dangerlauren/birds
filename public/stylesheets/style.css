@@ -65,8 +65,11 @@ h3 {
 
 #hero {
     text-align: center;
-    margin-top: 16%;
+    top: 33%;
+    left: 30%;
+    right: 2%;
     font-size: 2em;
+    position: absolute;
 }
 
 .register, .login {
