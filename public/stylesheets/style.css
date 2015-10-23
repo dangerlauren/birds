@@ -130,6 +130,14 @@ h4 {
   float: none;
 }
 
+.about {
+font-family: 'Oxygen', sans-serif;
+color: white;
+font-size: 1.5em;
+text-align: left
+
+}
+
 <!-- BELOW IS THE GEOCODING CODE STUFFS -->
 
 
