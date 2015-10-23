@@ -1,11 +1,13 @@
 
 <% include ./partials/header %>
 
-<div class="container">
-
      <% if(!locals.user) { %>
         <h1 id="hero">What the Duck</h1>
     <% } %>
+
+<div class="container">
+
+
 
     <% if(locals.user) { %>
         <div id="welcome">
