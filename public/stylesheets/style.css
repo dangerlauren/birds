@@ -60,7 +60,7 @@ h3 {
     max-width: 50px;
     max-height: 50px;
     margin-top: -28%;
-  margin-right: 10%;
+    margin-right: 10%;
 }
 
 #hero {
@@ -70,6 +70,7 @@ h3 {
     right: 2%;
     font-size: 2em;
     position: absolute;
+    text-shadow: 0 0 0.2em black;;
 }
 
 .register, .login {
@@ -87,6 +88,8 @@ h3 {
 
 .s-text {
     font-size: 1.5em;
+    color: #BE9B77;
+    text-shadow: 0 0 0.5em black;;
 }
 
 .s-submit {
@@ -127,6 +130,18 @@ color: white;
 font-size: 1.5em;
 text-align: left
 
+}
+
+.textboxlogin {
+  display: inline-block;
+  float: left;
+  margin: 2%;
+  padding: 2%;
+  border-radius: 5px;
+}
+
+.locationText {
+  width: 350px;
 }
 
 <!-- BELOW IS THE GEOCODING CODE STUFFS -->
