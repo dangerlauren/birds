@@ -19,7 +19,7 @@
 **What the Duck** was created in one-week as a project for the Web Development Intensive course at General Assembly.
 Team members are Alejandro, Steve, Lauren, Conner, and Akash (aka Best Guy).
 
-**Our ERD***
+**Our ERD**
 ![Image of ERD]
 (http://i.imgur.com/BhmvqKk.png)
 
