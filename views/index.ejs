@@ -27,11 +27,23 @@
 
             <h3>My List of Birds</h3>
 
-            <div id="userBirdList">
-                <%for(var x=0;x<userBirds.length;x++){%>
+            <div id="userBirdList" class="col-md-4">
+                <% for(x=0;x<userBirds.length;x++){ %>    
                     <%= userBirds[x].birdName %>
+                    <div class="birdName">
+                      <%= userBirds[x].birdName %>
+                    </div>
+                    <div class="birdImage">
+                      <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
+                    </div>
                 <% } %>
             </div>
+            <div>
+                <% if(locals.user){ %>
+                    <div id="map"></div>
+                <% } %>
+            </div>
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -73,7 +85,6 @@
           </div>
         </div>
     <% } %>
-
 </div>
 
 
@@ -120,13 +131,10 @@ $(document).ready(function(){
                 position: latlng,
                 title: sighting.birdName,
             });
-            window.location.reload();
-        });
-    });        
+        )};
+    }
 });
 </script>
-
-
 <% include ./partials/footer %>
 
 

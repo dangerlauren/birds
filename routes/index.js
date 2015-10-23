@@ -7,6 +7,8 @@ var router = express.Router();
 var validator = require('validator');
 var fs = require('fs');
 var ejs = require('ejs');
+var geocoder = require('geocoder');
+var paginate = require('express-paginate');
 
 
 router.get('/', function (req, res) {
@@ -54,7 +56,7 @@ router.post('/register', function(req, res) {
     res.render('register', {
      username: req.body.username,
      error: "Please enter a valid email"
-     });
+    });
   }
 });
 
@@ -64,10 +66,6 @@ router.get('/login', function(req, res) {
 
 router.post('/login', passport.authenticate('local'), function(req, res) {
     res.redirect('/');
-});
-
-router.get('/map', function(req, res) {
-    res.render('map', { user : req.user });
 });
 
 router.get('/logout', function(req, res) {
@@ -81,18 +79,22 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
-    var newSighting = Sighting({
-        accountUsername: req.user.username,
-        birdName: req.body.title,
-        birdImage: req.body.birdImage
-    });
-
-    console.log("new sighting",   newSighting);
-    newSighting.save(function(err){
-        if(err) console.log(err);
-        var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-        var html = compiled({ bird:newSighting });
-        res.send(html);
+    geocoder.geocode(req.body.location, function ( err, data ) {
+        if(!err){
+            var lat = data.results[0].geometry.location.lat;
+            var lng = data.results[0].geometry.location.lng;
+            var newSighting = Sighting({
+                accountUsername: req.user.username, 
+                birdName: req.body.title,
+                birdImage: req.body.birdImage,
+                lat: lat,
+                lng: lng
+            }); 
+            newSighting.save(function(err){
+                if(err) console.log(err);
+                res.json(newSighting);
+            });
+        }   
     });
 
 });
