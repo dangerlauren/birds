@@ -27,12 +27,23 @@
 
             <h3>My List of Birds</h3>
 
-            <div id="userBirdList">
-                <%for(var x=0;x<userBirds.length;x++){%>
+            <div id="userBirdList" class="col-md-4">
+                <% for(x=0;x<userBirds.length;x++){ %>    
                     <%= userBirds[x].birdName %>
-                    <% include ./partials/userBird %>
+                    <div class="birdName">
+                      <%= userBirds[x].birdName %>
+                    </div>
+                    <div class="birdImage">
+                      <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
+                    </div>
                 <% } %>
             </div>
+            <div>
+                <% if(locals.user){ %>
+                    <div id="map"></div>
+                <% } %>
+            </div>
+        </div>
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -73,6 +84,8 @@
             </div>
           </div>
         </div>
+
+      </div>
     <% } %>
 
 </div>
@@ -80,21 +93,25 @@
 
 
 <% if(locals.user){ %>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
-<div id="map"></div>
+
     <script>
         function initMap(){
             map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 20,
-                center: {lat: 30.2500, lng: -97.7500}
+                zoom: 4,
+                center: {lat: 30.2500, lng: -97.7500},
+                mapTypeId: google.maps.MapTypeId.SATELLITE
             });
             var sightings = <%- JSON.stringify(userBirds) %>;
-            for(var i = 0; i < sightings.length; i++){
-                var latlng = new google.maps.LatLng(sightings[i].lat, sightings[i].lng);
+            for(var x = 0; x < sightings.length; x++){
+                var latlng = new google.maps.LatLng(sightings[x].lat, sightings[x].lng);
+                var image = {url: sightings[x].birdImage, scaledSize: new google.maps.Size(20, 20)};
                 var marker = new google.maps.Marker({
                     map: map,
                     position: latlng,
-                    title: sightings[i].birdName
+                    title: sightings[x].birdName,
+                    icon: image
                 });
             }
         }
@@ -118,10 +135,15 @@ $(document).ready(function(){
                 map: map,
                 position: latlng,
                 title: sighting.birdName
-            });
+            }); 
+            window.location.reload();
         });
     });        
 });
+</script>
+
+<script>
+
 </script>
 
 

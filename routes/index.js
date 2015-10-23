@@ -6,6 +6,8 @@ var Sighting = require('../models/sighting');
 var router = express.Router();
 var validator = require('validator');
 var geocoder = require('geocoder');
+var paginate = require('express-paginate');
+
 
 router.get('/', function (req, res) {
     if(!req.user) {
@@ -20,7 +22,7 @@ router.get('/', function (req, res) {
                 user : req.user,
                 title: 'What the Duck?',
                 birds: birddata,
-                userBirds: stuff
+                userBirds: stuff,
             });
         });
     });
