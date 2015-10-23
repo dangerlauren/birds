@@ -7,18 +7,15 @@
 
 <div class="container">
 
-
-
     <% if(locals.user) { %>
         <div id="welcome">
         <p>Welcome <%= user.username %></p>
     </div>
-
-
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
           Add a bird
         </button>
+
 
 <section>
 <div>
@@ -27,18 +24,18 @@
 </section>
 
 
+
         <div class="box">
 
             <h3>My List of Birds</h3>
 
             <div id="userBirdList" class="col-md-4">
                 <% for(x=0;x<userBirds.length;x++){ %>    
-                    <%= userBirds[x].birdName %>
                     <div class="birdName">
                       <%= userBirds[x].birdName %>
                     </div>
                     <div class="birdImage">
-                      <img width="158" height="150" class="thumbnailImage" src="<%= userBirds[x].birdImage %>">
+                      <img width="158" height="150" class="thumbnailImage1" src="<%= userBirds[x].birdImage %>">
                     </div>
                 <% } %>
             </div>
@@ -48,7 +45,6 @@
                 <% } %>
             </div>
         </div>
-
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -60,9 +56,7 @@
               </div>
               <div class="modal-body">
                     <div class="row">
-
                     <%for(var i=0;i<birds.length;i++){%>
-
                       <div class="col-xs-6 col-md-4">
                         <div class="thumbnail">
                           <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
@@ -75,11 +69,8 @@
                           </div>
                         </div>
                       </div>
-
                     <% } %>
-
                     </div>
-
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -88,22 +79,15 @@
             </div>
           </div>
         </div>
-
       </div>
     <% } %>
-
 </div>
-
-
-
 <% if(locals.user){ %>
-
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
-
 <script>
     function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 10,
+            zoom: 4,
             center: {lat: 30.2500, lng: -97.7500},
             mapTypeId: google.maps.MapTypeId.SATELLITE,
         });
@@ -120,9 +104,7 @@
         }
     }
 </script>
-
 <% } %>
-
 <script>
     $(document).ready(function(){
         $('.thumbnail').click(function(){
@@ -143,10 +125,8 @@
                     icon: image
                 }); 
             });
+
         });        
     });
 </script>
-
 <% include ./partials/footer %>
-
-
