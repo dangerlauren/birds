@@ -19,10 +19,12 @@
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
           Add a bird
         </button>
-        <div>
-            <br>
-        </div>    
 
+<section>
+<div>
+<br>
+</div>    
+</section>
 
 
         <div class="box">
@@ -105,8 +107,6 @@
             center: {lat: 30.2500, lng: -97.7500},
             mapTypeId: google.maps.MapTypeId.SATELLITE,
         });
-        var bounds = google.maps.LatLngBounds();
-        map.setTilt(45);
         var sightings = <%- JSON.stringify(userBirds) %>;
         for(var x = 0; x < sightings.length; x++){
             var latlng = new google.maps.LatLng(sightings[x].lat, sightings[x].lng);
@@ -117,9 +117,7 @@
                 title: sightings[x].birdName,
                 icon: image
             });
-            bounds.extend(latlng);
         }
-        map.fitBounds(bounds);
     }
 </script>
 
@@ -137,8 +135,7 @@
                 data: {title: title, birdImage: image, location: location},
             }).done(function(sighting){
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
-                var image = {url: sightings.birdImage, scaledSize: new google.maps.Size(20, 20)};
-                map.setCenter(latlng);
+                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
                 var marker = new google.maps.Marker({
                     map: map,
                     position: latlng,
@@ -146,7 +143,6 @@
                     icon: image
                 }); 
             });
-            window.location.reload();
         });        
     });
 </script>
