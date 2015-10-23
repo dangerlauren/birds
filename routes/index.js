@@ -10,28 +10,28 @@ var ejs = require('ejs');
 
 
 router.get('/', function (req, res) {
-    if(!req.user) {
-        res.render('index', {title: 'What the Duck?'});
-        return false;
-    }
+  if(!req.user) {
+    res.render('index', {title: 'What the Duck?'});
+    return false;
+  }
 
-    Bird.find({}, function(err, birddata){
-        Sighting.find({accountUsername: req.user.username}, function(err, stuff){
-            res.render('index', {
-                user : req.user,
-                title: 'What the Duck?',
-                birds: birddata,
-                userBirds: stuff,
-            });
-        });
+  Bird.find({}, function(err, birddata){
+    Sighting.find({accountUsername: req.user.username}, function(err, stuff){
+      res.render('index', {
+        user : req.user,
+        title: 'What the Duck?',
+        birds: birddata,
+        userBirds: stuff,
+      });
     });
+  });
 });
 
 router.get('/register', function(req, res) {
-    res.render('register', {
-     username: "",
-     error: ""
-    });
+  res.render('register', {
+   username: "",
+   error: ""
+ });
 });
 
 router.post('/register', function(req, res) {
@@ -41,10 +41,10 @@ router.post('/register', function(req, res) {
 
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
       if (err) {
-          return res.render('register', { account : account, error: err, username: req.body.username });
+        return res.render('register', { account : account, error: err, username: req.body.username });
       }
       passport.authenticate('local')(req, res, function () {
-          res.redirect('/');
+        res.redirect('/');
       });
     });
   }
@@ -54,49 +54,48 @@ router.post('/register', function(req, res) {
     res.render('register', {
      username: req.body.username,
      error: "Please enter a valid email"
-     });
+   });
   }
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+  res.render('login', { user : req.user });
 });
 
 router.post('/login',
-    passport.authenticate('local', {failureRedirect: '/login' }),
-    function(req, res) {
-      res.redirect('/');
-    }
-);
+  passport.authenticate('local',
+    {failureRedirect: '/login' }),
+  function(req, res) { res.redirect('/') }
+  );
 
 router.get('/map', function(req, res) {
-    res.render('map', { user : req.user });
+  res.render('map', { user : req.user });
 });
 
 router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
+  req.logout();
+  res.redirect('/');
 });
 
 router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
+  res.status(200).send("pong!");
 });
 
 
 router.post('/newSighting', function(req, res) {
-    var newSighting = Sighting({
-        accountUsername: req.user.username,
-        birdName: req.body.title,
-        birdImage: req.body.birdImage
-    });
+  var newSighting = Sighting({
+    accountUsername: req.user.username,
+    birdName: req.body.title,
+    birdImage: req.body.birdImage
+  });
 
-    console.log("new sighting",   newSighting);
-    newSighting.save(function(err){
-        if(err) console.log(err);
-        var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-        var html = compiled({ bird:newSighting });
-        res.send(html);
-    });
+  console.log("new sighting",   newSighting);
+  newSighting.save(function(err){
+    if(err) console.log(err);
+    var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+    var html = compiled({ bird:newSighting });
+    res.send(html);
+  });
 
 });
 
