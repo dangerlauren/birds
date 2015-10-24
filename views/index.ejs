@@ -3,11 +3,9 @@
 
 <div class="container">
 
-     <% if(!locals.user) { %>
+    <% if(!locals.user) { %>
         <h1 id="hero">What the Duck</h1>
-    <% } %>
-
-    <% if(locals.user) { %>
+    <% } else { %>
         <div id="welcome">
         <p>Welcome <%= user.username %></p>
     </div>
