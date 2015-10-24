@@ -22,13 +22,14 @@
         <div class="box">
           <h3>My List of Birds</h3>
 
-
-        <div id="userBirdList">
-            <%for(var x=0;x<userBirds.length;x++){%>
-              <% var bird= userBirds[x] %>
-              <% include ./partials/userBird %>
-            <% } %>
-        </div>
+<!-- Start of user's birds. -->
+<div id="userBirdList">
+<%for(var x=0;x<userBirds.length;x++){%>
+  <% var bird= userBirds[x] %>
+  <% include ./partials/userBird %>
+<% } %>
+</div>
+<!-- End of user's birds. -->
 
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
