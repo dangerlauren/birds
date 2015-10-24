@@ -9,28 +9,34 @@
         <div id="welcome">
         <p>Welcome <%= user.username %></p>
     </div>
-
-
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
           Add a bird
         </button>
-        <div>
+
+        <section>
+          <div>
             <br>
-        </div>
+          </div>
+        </section>
 
         <div class="box">
-          <h3>My List of Birds</h3>
 
+            <h3>My List of Birds</h3>
 <!-- Start of user's birds. -->
-<div id="userBirdList">
-<%for(var x=0;x<userBirds.length;x++){%>
-  <% var bird= userBirds[x] %>
-  <% include ./partials/userBird %>
-<% } %>
-</div>
+            <div id="userBirdList" class="col-md-4">
+            <%for(var x=0;x<userBirds.length;x++){%>
+              <% var bird= userBirds[x] %>
+              <% include ./partials/userBird %>
+            <% } %>
+            </div>
 <!-- End of user's birds. -->
-
+            <div>
+                <!-- <% if(locals.user){ %> -->
+                    <div id="map"></div>
+                <!-- <% } %> -->
+            </div>
+        </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
           <div class="modal-dialog" role="document">
@@ -38,56 +44,89 @@
               <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Birds</h4>
+                <input type="text" class="locationText" placeholder="Hey stupid. Your address goes here.">
               </div>
               <div class="modal-body">
                     <div class="row">
-
                     <%for(var i=0;i<birds.length;i++){%>
-
                       <div class="col-xs-6 col-md-4">
                         <div class="thumbnail" data-birdId= <%= birds[i]._id %>>
                           <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
                           <div class="caption">
                             <h4><%= birds[i].name %></h4>
-                              <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                 <button type="button" class="btn btn-default">ADD</button>
                                 <button type="button" class="btn btn-default">ALT VIEW</button>
                               </div>
                           </div>
                         </div>
                       </div>
-
                     <% } %>
-
                     </div>
-
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
               </div>
             </div>
           </div>
         </div>
-
+      </div>
     <% } %>
-
 </div>
-
+<% if(locals.user){ %>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
+<script>
+    function initMap(){
+        map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 4,
+            center: {lat: 30.2500, lng: -97.7500},
+            mapTypeId: google.maps.MapTypeId.SATELLITE,
+        });
+        var sightings = <%- JSON.stringify(userBirds) %>;
+        for(var x = 0; x < sightings.length; x++){
+            var latlng = new google.maps.LatLng(sightings[x].lat, sightings[x].lng);
+            var image = {url: sightings[x].birdImage, scaledSize: new google.maps.Size(20, 20)};
+            var marker = new google.maps.Marker({
+                map: map,
+                position: latlng,
+                title: sightings[x].birdName,
+                icon: image
+            });
+        }
+    }
+</script>
+<% } %>
 <script>
     $(document).ready(function(){
         $('.thumbnail').click(function(){
-            var title = $(this).text();
+            var title = $(this).find('h4').text().trim();
             var image = $(this).children('img').attr('src');
+            var location = $(".locationText").val();
             $.ajax({
                 url: '/newSighting',
-                // url: 'http://localhost:3000/newSighting',
-                method: "post",
-                data: {title: title, birdImage: image}
-            }).done(function(newBird) {
-              $("#userBirdList").prepend(newBird);
+// <<<<<<< HEAD
+//                 // url: 'http://localhost:3000/newSighting',
+//                 method: "post",
+//                 data: {title: title, birdImage: image}
+//             }).done(function(newBird) {
+//               $("#userBirdList").prepend(newBird);
+// =======
+                method: "POST",
+                data: {title: title, birdImage: image, location: location},
+            }).done(function(sighting){
+                var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
+                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: latlng,
+                    title: sighting.birdName,
+                    icon: image
+                });
+// >>>>>>> master
             });
+
         });
     });
 </script>
-
-
 <% include ./partials/footer %>
-
-
