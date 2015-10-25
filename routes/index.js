@@ -100,8 +100,8 @@ router.post('/newSighting', function(req, res) {
 //   newSighting.save(function(err){
 //     if(err) console.log(err);
 //     var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-//     var html = compiled({ bird:newSighting });
-//     res.send(html);
+//     var html_encoded = compiled({ bird:newSighting }).toSring('base64');
+//     res.send(html_encoded);
 //   });
 // =======
     geocoder.geocode(req.body.location, function ( err, data ) {
@@ -116,8 +116,20 @@ router.post('/newSighting', function(req, res) {
                 lng: lng
             });
             newSighting.save(function(err){
-                if(err) console.log(err);
+                if(err) console.log("err:", err);
+
+                // the following block formats a new sighting into display html populated with sighting data
+                var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+                var html = compiled({ bird:newSighting });
+                var htmlEncoded= new Buffer(html, 'base64');
+                // and the next line injects the encoded html into the mongoose object thus enabeling the html to piggy back on the object.
+                newSighting.set("htmlEncoded",htmlEncoded, {strict: false});
                 res.json(newSighting);
+
+                // for reference: the following code using mongoose "toObject" methoid also works
+                // var sighting = newSighting.toObject();
+                // var combinedResponse = {"sighting":sighting,"htmlEncoded":htmlEncoded};
+                // res.json(combinedResponse);
             });
         }
     });
