@@ -114,6 +114,7 @@
                 method: "POST",
                 data: {title: title, birdImage: image, location: location},
             }).done(function(sighting){
+              console.log ("sighting:", sighting);
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
                 var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
                 var marker = new google.maps.Marker({
