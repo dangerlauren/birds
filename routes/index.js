@@ -89,21 +89,7 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
-// <<<<<<< HEAD
-//   var newSighting = Sighting({
-//     accountUsername: req.user.username,
-//     birdName: req.body.title,
-//     birdImage: req.body.birdImage
-//   });
 
-//   console.log("new sighting",   newSighting);
-//   newSighting.save(function(err){
-//     if(err) console.log(err);
-//     var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-//     var html_encoded = compiled({ bird:newSighting }).toSring('base64');
-//     res.send(html_encoded);
-//   });
-// =======
     geocoder.geocode(req.body.location, function ( err, data ) {
         if(!err){
             var lat = data.results[0].geometry.location.lat;
@@ -118,20 +104,18 @@ router.post('/newSighting', function(req, res) {
             newSighting.save(function(err){
                 if(err) console.log("err:", err);
 
-                // the following block formats a new sighting into display html populated with sighting data
+                // the following two lines format a new sighting into display html populated with the sighting data
                 var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
                 var html = compiled({ bird:newSighting });
-                var htmlEncoded= new Buffer(html, 'base64');
-                // and the next line injects the encoded html into the mongoose object thus enabeling the html to piggy back on the object.
-                newSighting.set("htmlEncoded",htmlEncoded, {strict: false});
-                res.json(newSighting);
+                // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
+                newSighting.set("html",html, {strict: false});
 
-                // for reference: the following code using mongoose "toObject" methoid also works
-                // var sighting = newSighting.toObject();
-                // var combinedResponse = {"sighting":sighting,"htmlEncoded":htmlEncoded};
-                // res.json(combinedResponse);
+                res.json(newSighting);
             });
         }
+        else {
+          alert ("Location could not be found.")
+        };
     });
 });
 
