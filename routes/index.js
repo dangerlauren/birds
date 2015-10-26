@@ -71,13 +71,6 @@ router.post('/login',
   function(req, res) { res.redirect('/') }
   );
 
-// <<<<<<< HEAD
-// router.get('/map', function(req, res) {
-//   res.render('map', { user : req.user });
-// });
-
-// =======
-// >>>>>>> master
 router.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/');
@@ -119,9 +112,20 @@ router.post('/newSighting', function(req, res) {
     });
 });
 
-router.get('/about', function(req, res){
-res.render('about');
+router.post('/killSighting', function(req, res) {
+  Sighting.findOneAndRemove({_id: req._id}, function (err){
+    if (err) {
+      console.log ("kill_sighting err:", err);
+      res.json({"killed": false})
+    }
+    else {
+      res.json({"killed": true})
+    }
+  })
+});
 
+router.get('/about', function(req, res){
+  res.render('about');
 });
 
 module.exports = router;

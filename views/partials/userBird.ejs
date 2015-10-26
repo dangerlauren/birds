@@ -1,4 +1,4 @@
-<div  data-sighting="<%=bird._id%>" >
+<div id="<%=bird._id%>">
 		<div class="birdName">
 		  <%= bird.birdName %>
 		</div>
@@ -7,7 +7,7 @@
 		</div>
 		<div class="caption">
 		    <div class="btn-group btn-group-xs" >
-		        <button type="button" class="btn btn-default btn-left"> REMOVE </button>
+		        <button type="button" class="btn-kill btn btn-default btn-left" id="<%=bird._id%>"> REMOVE </button>
 		        <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
 		    </div>
 		</div>
