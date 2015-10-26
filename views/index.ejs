@@ -114,12 +114,12 @@
        $('.btn-kill').click(function(event){
             var _id = event.target.id;
             console.log("kill! id= ",_id);
-            // $.ajax({
-            //     url: '/killSighting',
-            //     method: "POST",
-            //     data: {_id: _id},
-            // }).done(function(killed){
-            //     console.log(killed);
+            $.ajax({
+                url: '/killSighting',
+                method: "POST",
+                data: {id:_id},
+            }).done(function(killed){
+                console.log(killed);
                  // if (killed.killed) then $("#_id").remove();
                 // else Alert ("Couldn't kill the bird!");
 
@@ -131,7 +131,7 @@
                 //     title: sighting.birdName,
                 //     icon: image
                 // });
-            // });
+            });
 
         });
     });

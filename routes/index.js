@@ -107,21 +107,23 @@ router.post('/newSighting', function(req, res) {
             });
         }
         else {
-          alert ("Location could not be found.")
+          alert ("Location could not be found.");
         };
     });
 });
 
 router.post('/killSighting', function(req, res) {
-  Sighting.findOneAndRemove({_id: req._id}, function (err){
-    if (err) {
-      console.log ("kill_sighting err:", err);
-      res.json({"killed": false})
-    }
-    else {
-      res.json({"killed": true})
-    }
-  })
+  // console.log("req:",req);
+  Sighting.findByIdAndRemove(req.body.id, function (err){
+    console.log("err:",err);
+    // if (err) {
+    //   console.log ("kill_sighting err:", err);
+    //   res.json({"killed": false})
+    // }
+    // else {
+    //   res.json({"killed": true})
+    // }
+  });
 });
 
 router.get('/about', function(req, res){
