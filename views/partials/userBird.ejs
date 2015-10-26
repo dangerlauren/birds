@@ -1,7 +1,15 @@
-<div class="birdName">
-  <%= bird.birdName %>
+<div  data-sighting="<%=bird._id%>" >
+		<div class="birdName">
+		  <%= bird.birdName %>
+		</div>
+		<div class="birdImage">
+				<img width="158" height="150" class="thumbnailImage" src="<%= bird.birdImage %>">
+		</div>
+		<div class="caption">
+		    <div class="btn-group btn-group-xs" >
+		        <button type="button" class="btn btn-default btn-left"> REMOVE </button>
+		        <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
+		    </div>
+		</div>
+		<br>
 </div>
-<div class="birdImage">
-<img width="158" height="150" class="thumbnailImage" src="<%= bird.birdImage %>">
-</div>
-<br>

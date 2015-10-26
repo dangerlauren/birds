@@ -7,21 +7,14 @@
         <h1 id="hero">What the Duck</h1>
     <% } else { %>
         <div id="welcome">
-        <p>Welcome <%= user.username %></p>
-    </div>
+            <p>Welcome <%= user.username %></p>
+        </div>
         <!-- Button trigger modal -->
-        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">
-          Add a bird
-        </button>
-
-        <section>
-          <div>
+        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add a bird</button>
+        <div>
             <br>
-          </div>
-        </section>
-
+        </div>
         <div class="box">
-
             <h3>My List of Birds</h3>
 <!-- Start of user's birds. -->
             <div id="userBirdList" class="col-md-4">
@@ -32,46 +25,44 @@
             </div>
 <!-- End of user's birds. -->
             <div>
-                <!-- <% if(locals.user){ %> -->
-                    <div id="map"></div>
-                <!-- <% } %> -->
+                <div id="map"></div>
             </div>
         </div>
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Birds</h4>
-                <input type="text" class="locationText" placeholder="** Sighting address required. **">
-              </div>
-              <div class="modal-body">
-                    <div class="row">
-                    <%for(var i=0;i<birds.length;i++){%>
-                      <div class="col-xs-6 col-md-4">
-                        <div class="thumbnail" data-birdId= <%= birds[i]._id %>>
-                          <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
-                          <div class="caption">
-                            <h4><%= birds[i].name %></h4>
-                                <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                <button type="button" class="btn btn-default">ADD</button>
-                                <button type="button" class="btn btn-default">ALT VIEW</button>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    <% } %>
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Birds</h4>
+                      <input type="text" class="locationText" placeholder="** Sighting address       required. **">
                     </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-              </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <%for(var i=0;i<birds.length;i++){%>
+                            <div class="col-xs-6 col-md-4">
+                                <div class="thumbnail" data-birdId= <%= birds[i]._id %>>
+                                    <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
+                                    <div class="caption">
+                                        <h4><%= birds[i].name %></h4>
+                                        <div class="btn-group btn-group-xs" role="group" aria-label="...">
+                                            <button type="button" class="btn btn-default btn-left"> ADD </button>
+                                            <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     <% } %>
 </div>
 <% if(locals.user){ %>
