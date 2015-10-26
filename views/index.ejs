@@ -77,7 +77,6 @@
 <% if(locals.user){ %>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
 <script>
-    var sSighting;
 // google maps does not like to be inside of document ready function!!
     function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
@@ -109,7 +108,6 @@
                 data: {title: title, birdImage: image, location: location},
             }).done(function(sighting){
                 $("#userBirdList").prepend(sighting.html);
-                console.log ("sSighting:", sSighting);
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
                 var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
                 var marker = new google.maps.Marker({
