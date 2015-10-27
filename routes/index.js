@@ -94,6 +94,7 @@ router.post('/newSighting', function(req, res) {
                 lat: lat,
                 lng: lng
             });
+            console.log("geocode:");
             newSighting.save(function(err){
                 if(err) console.log("err:", err);
 
@@ -116,6 +117,9 @@ router.post('/killSighting', function(req, res) {
   // console.log("req:",req);
   Sighting.findByIdAndRemove(req.body.id, function (err){
     console.log("err:",err);
+    res.json({"killed": true})
+
+
     // if (err) {
     //   console.log ("kill_sighting err:", err);
     //   res.json({"killed": false})

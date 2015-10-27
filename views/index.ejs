@@ -11,9 +11,11 @@
         </div>
         <!-- Button trigger modal -->
         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#myModal">Add a bird</button>
+        <section>
         <div>
             <br>
         </div>
+        </section>
         <div class="box">
             <h3>My List of Birds</h3>
 <!-- Start of user's birds. -->
@@ -47,7 +49,7 @@
                                     <div class="caption">
                                         <h4><%= birds[i].name %></h4>
                                         <div class="btn-group btn-group-xs" role="group" aria-label="...">
-                                            <button type="button" class="btn btn-default btn-left"> ADD </button>
+                                            <button type="button" class="btn-add btn btn-default btn-left"> ADD </button>
                                             <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
                                         </div>
                                     </div>
@@ -90,7 +92,7 @@
 
     $(document).ready(function(){
 
-        $('.thumbnail').click(function(){
+        $('.btn-add').click(function(){
             var title = $(this).find('h4').text().trim();
             var image = $(this).children('img').attr('src');
             var location = $(".locationText").val();
@@ -112,15 +114,14 @@
         });
 
        $('.btn-kill').click(function(event){
-            var _id = event.target.id;
-            console.log("kill! id= ",_id);
+            var id = event.target.id;
             $.ajax({
                 url: '/killSighting',
                 method: "POST",
-                data: {id:_id},
-            }).done(function(killed){
-                console.log(killed);
-                 // if (killed.killed) then $("#_id").remove();
+                data: {id:id},
+            }).done(function(){
+                var classId = "."+id;
+               $(classId).remove();
                 // else Alert ("Couldn't kill the bird!");
 
                 // var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
