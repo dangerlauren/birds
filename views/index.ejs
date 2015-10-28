@@ -93,8 +93,9 @@
     $(document).ready(function(){
 
         $('.btn-add').click(function(){
-            var title = $(this).find('h4').text().trim();
-            var image = $(this).children('img').attr('src');
+
+            var title = $(this).parent().prev().text().trim();
+            var image = $(this).parent().parent().prev('img').attr('src');
             var location = $(".locationText").val();
             $.ajax({
                 url: '/newSighting',
