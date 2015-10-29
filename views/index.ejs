@@ -97,14 +97,18 @@
             var title = $(this).parent().prev().text().trim();
             var image = $(this).parent().parent().prev('img').attr('src');
             var location = $(".locationText").val();
+
             $.ajax({
                 url: '/newSighting',
                 method: "POST",
                 data: {title: title, birdImage: image, location: location},
             }).done(function(sighting){
+                console.log(sighting);
                 $("#userBirdList").prepend(sighting.html);
+                console.log(sighting._id);
+                buttonKillHandeler('#'+sighting._id);
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
-                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
+                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)};
                 var marker = new google.maps.Marker({
                     map: map,
                     position: latlng,
@@ -114,28 +118,36 @@
             });
         });
 
-       $('.btn-kill').click(function(event){
-            var id = event.target.id;
-            $.ajax({
-                url: '/killSighting',
-                method: "POST",
-                data: {id:id},
-            }).done(function(){
-                var classId = "."+id;
-               $(classId).remove();
-                // else Alert ("Couldn't kill the bird!");
 
-                // var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
-                // var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)}
-                // var marker = new google.maps.Marker({
-                //     map: map,
-                //     position: latlng,
-                //     title: sighting.birdName,
-                //     icon: image
-                // });
+        // $('.btn-kill').click(function(event){
+        //     var id = event.target.id;
+        //     $.ajax({
+        //         url: '/killSighting',
+        //         method: "POST",
+        //         data: {id:id},
+        //     }).done(function(){
+        //         var classId = "."+id;
+        //        $(classId).remove();
+        //         // else Alert ("Couldn't kill the bird!");
+        //     });
+        // });
+
+        function buttonKillHandeler (selector){
+            $(selector).click(function(event){
+                var id = event.target.id;
+                $.ajax({
+                    url: '/killSighting',
+                    method: "POST",
+                    data: {id:id},
+                }).done(function(){
+                    var classId = "."+id;
+                   $(classId).remove();
+                    // else Alert ("Couldn't kill the bird!");
+                });
             });
+        };
 
-        });
+        buttonKillHandeler('.btn-kill');
     });
 </script>
 <% }; %>
