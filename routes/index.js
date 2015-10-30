@@ -12,29 +12,29 @@ var paginate = require('express-paginate');
 
 
 router.get('/', function (req, res) {
-    if(!req.user) {
-        res.render('index', {title: 'What the Duck?'});
-        return false;
-    }
+  if(!req.user) {
+    res.render('index', {title: 'What the Duck?'});
+    return false;
+  }
 
-    Bird.find({}, function(err, birddata){
-        Sighting.find({accountUsername: req.user.username}, function(err, stuff){
-            res.render('index', {
-                user : req.user,
-                title: 'What the Duck?',
-                birds: birddata,
-                userBirds: stuff,
-            });
-        });
+  Bird.find({}, function(err, birddata){
+    Sighting.find({accountUsername: req.user.username}, function(err, stuff){
+      res.render('index', {
+        user : req.user,
+        title: 'What the Duck?',
+        birds: birddata,
+        userBirds: stuff,
+      });
     });
+  });
 });
 
 
 router.get('/register', function(req, res) {
-    res.render('register', {
-     username: "",
-     error: ""
-    });
+  res.render('register', {
+   username: "",
+   error: ""
+ });
 });
 
 router.post('/register', function(req, res) {
@@ -44,10 +44,10 @@ router.post('/register', function(req, res) {
 
     Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
       if (err) {
-          return res.render('register', { account : account, error: err, username: req.body.username });
+        return res.render('register', { account : account, error: err, username: req.body.username });
       }
       passport.authenticate('local')(req, res, function () {
-          res.redirect('/');
+        res.redirect('/');
       });
     });
   }
@@ -62,46 +62,76 @@ router.post('/register', function(req, res) {
 });
 
 router.get('/login', function(req, res) {
-    res.render('login', { user : req.user });
+  res.render('login', { user : req.user });
 });
 
-router.post('/login', passport.authenticate('local'), function(req, res) {
-    res.redirect('/');
-});
+router.post('/login',
+  passport.authenticate('local',
+    {failureRedirect: '/login' }),
+  function(req, res) { res.redirect('/') }
+  );
 
 router.get('/logout', function(req, res) {
-    req.logout();
-    res.redirect('/');
+  req.logout();
+  res.redirect('/');
 });
 
 router.get('/ping', function(req, res){
-    res.status(200).send("pong!");
+  res.status(200).send("pong!");
 });
 
 
 router.post('/newSighting', function(req, res) {
+
     geocoder.geocode(req.body.location, function ( err, data ) {
         if(!err){
             var lat = data.results[0].geometry.location.lat;
             var lng = data.results[0].geometry.location.lng;
             var newSighting = Sighting({
-                accountUsername: req.user.username, 
+                accountUsername: req.user.username,
                 birdName: req.body.title,
                 birdImage: req.body.birdImage,
                 lat: lat,
                 lng: lng
-            }); 
+            });
+            console.log("geocode:");
             newSighting.save(function(err){
-                if(err) console.log(err);
+                if(err) console.log("err:", err);
+
+                // the following two lines format a new sighting into display html populated with the sighting data
+                var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+                var html = compiled({ bird:newSighting });
+                // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
+                newSighting.set("html",html, {strict: false});
+
                 res.json(newSighting);
             });
-        }   
+        }
+        else {
+          alert ("Location could not be found.");
+        };
     });
 });
 
-router.get('/about', function(req, res){
-res.render('about');
+router.post('/killSighting', function(req, res) {
+  // console.log("req:",req);
+  Sighting.findByIdAndRemove(req.body.id, function (err){
+    console.log("err:",err);
+    res.json({"killed": true})
 
+
+    // if (err) {
+    //   console.log ("kill_sighting err:", err);
+    //   res.json({"killed": false})
+    // }
+    // else {
+    //   res.json({"killed": true})
+    // }
+  });
+});
+
+router.get('/about', function(req, res){
+  res.render('about');
 });
 
 module.exports = router;

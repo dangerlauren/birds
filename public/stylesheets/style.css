@@ -13,6 +13,26 @@ a {
 
 }
 
+.btn-left {
+  margin-right:5px;
+  margin-top:5px;
+}
+
+.btn-right {
+  margin-left:5px;
+  margin-top:5px;
+}
+
+.btn-group {
+  text-align: center;
+}
+
+.btn-default {
+  height: 20px;
+  width:65px;
+}
+
+
 .hover:hover {
 	background: rgba(68, 78, 58, 0.4);
 }
@@ -82,7 +102,7 @@ h3 {
     border-radius: 10px 10px 10px 10px;
     background:rgba(142,142,143,0.3);
     -webkit-box-shadow: #4F4029 8px 8px 8px;
-    -moz-box-shadow: #4F4029 8px 8px 8px; 
+    -moz-box-shadow: #4F4029 8px 8px 8px;
     box-shadow: #4F4029 8px 8px 8px;
 }
 
