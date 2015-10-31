@@ -2,14 +2,14 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var Bird = require('../models/bird');
-var Sighting = require('../models/sighting');
+var Sighting = require('../models/sighting').Sighting;
+var makeSighting = require('../models/sighting').makeSighting;
 var router = express.Router();
 var validator = require('validator');
-var saveSighting = require('../models/sighting');
 
-// var fs = require('fs');
-// var ejs = require('ejs');
-// var geocoder = require('geocoder');
+var fs = require('fs');
+var ejs = require('ejs');
+var geocoder = require('geocoder');
 
 var paginate = require('express-paginate');
 
@@ -85,25 +85,28 @@ router.get('/ping', function(req, res){
 
 
 router.post('/newSighting', function(req, res) {
-  saveSighting(req, res);
+  makeSighting(req, res);
 });
 
-router.post('/killSighting', function(req, res) {
-  // console.log("req:",req);
-  Sighting.findByIdAndRemove(req.body.id, function (err){
-    console.log("err:",err);
-    res.json({"killed": true})
+// router.post('/killSighting', function(req, res) {
+//   // console.log("req:",req);
+//   Sighting.findByIdAndRemove(req.body.id, function (err){
+//     console.log("err:",err);
+//     res.json({"killed": true})
 
 
-    // if (err) {
-    //   console.log ("kill_sighting err:", err);
-    //   res.json({"killed": false})
-    // }
-    // else {
-    //   res.json({"killed": true})
-    // }
-  });
-});
+//     // if (err) {
+//     //   console.log ("kill_sighting err:", err);
+//     //   res.json({"killed": false})
+//     // }
+//     // else {
+//     //   res.json({"killed": true})
+//     // }
+
+
+
+//   });
+// });
 
 router.get('/about', function(req, res){
   res.render('about');
