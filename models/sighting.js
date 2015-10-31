@@ -7,6 +7,7 @@ var Schema = mongoose.Schema;
 
 var sightingSchema = new Schema({
     accountUsername: String,
+    birdId: String,
     birdName: String,
     birdImage: String,
     lat: String,
@@ -22,6 +23,7 @@ function makeSighting(req, res) {
       var lng = data.results[0].geometry.location.lng;
       var newSighting = Sighting({
         accountUsername: req.user.username,
+        birdId: req.body.birdId,
         birdName: req.body.title,
         birdImage: req.body.birdImage,
         lat: lat,
@@ -34,8 +36,9 @@ function makeSighting(req, res) {
         // the following two lines format a new sighting into display html populated with the sighting data
         var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
         var html = compiled({ bird:newSighting });
+
         // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
-        newSighting.set("html",html, {strict: false});
+        newSighting.set("html", html, {strict: false});
 
         res.json(newSighting);
       });

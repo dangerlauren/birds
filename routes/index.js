@@ -7,13 +7,7 @@ var makeSighting = require('../models/sighting').makeSighting;
 var killSighting = require('../models/sighting').killSighting;
 var router = express.Router();
 var validator = require('validator');
-
-// var fs = require('fs');
-// var ejs = require('ejs');
-// var geocoder = require('geocoder');
-
 var paginate = require('express-paginate');
-
 
 router.get('/', function (req, res) {
   if(!req.user) {
@@ -32,7 +26,6 @@ router.get('/', function (req, res) {
     });
   });
 });
-
 
 router.get('/register', function(req, res) {
   res.render('register', {
@@ -84,13 +77,12 @@ router.get('/ping', function(req, res){
   res.status(200).send("pong!");
 });
 
-
 router.post('/newSighting', function(req, res) {
   makeSighting(req, res);
 });
 
 router.post('/killSighting', function(req, res) {
-  killSighting(req,res);
+  killSighting(req, res);
 });
 
 router.get('/about', function(req, res){
