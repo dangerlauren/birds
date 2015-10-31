@@ -13,15 +13,28 @@ router.get('/', function (req, res) {
   if(!req.user) {
     res.render('index', {title: 'What the Duck?'});
     return false;
-  }
+  };
 
-  Bird.find({}, function(err, birddata){
-    Sighting.find({accountUsername: req.user.username}, function(err, stuff){
+  // find all the birds
+  Bird.find({}, function(err, birdData){
+    // find all the users sightings
+    Sighting.find({accountUsername: req.user.username}, function(err, userBirds){
+      // populate each user sighting with birds name and image info using _id/birdId as the join metric.
+      for (i=0; i<userBirds.length; i++){
+        for (j=0; j<birdData.length; j++){
+          if (userBirds[i].birdId == birdData[j]._id) {
+            // note: the "===" operator would fail here as mongo returns "_id" string as an Object!
+            userBirds[i].set("birdName", birdData[j].name, {strict: false});
+            userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
+            break;
+          };
+        };
+      };
       res.render('index', {
         user : req.user,
         title: 'What the Duck?',
-        birds: birddata,
-        userBirds: stuff,
+        birds: birdData,
+        userBirds: userBirds,
       });
     });
   });
@@ -29,9 +42,9 @@ router.get('/', function (req, res) {
 
 router.get('/register', function(req, res) {
   res.render('register', {
-   username: "",
-   error: ""
- });
+    username: "",
+    error: ""
+  });
 });
 
 router.post('/register', function(req, res) {

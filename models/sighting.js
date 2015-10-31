@@ -24,23 +24,31 @@ function makeSighting(req, res) {
       var newSighting = Sighting({
         accountUsername: req.user.username,
         birdId: req.body.birdId,
-        birdName: req.body.title,
-        birdImage: req.body.birdImage,
+        // birdName: req.body.title,
+        // birdImage: req.body.birdImage,
         lat: lat,
         lng: lng
       });
       console.log("geocode:");
       newSighting.save(function(err){
-        if(err) console.log("err:", err);
+        Bird.find({"_id": newSighting[0].birdId}, function(err, sightedBird){
+          console.log("newBird",sightedBird);
+          console.log("newsight",newSighting);
+          if(err) console.log("err:", err);
+          newSighting[0].set("birdName",sightedBird[0].name, {strict: false});
+          newSighting[0].set("birdImage",sightedBird[0].images[0].url, {strict: false});
 
-        // the following two lines format a new sighting into display html populated with the sighting data
-        var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-        var html = compiled({ bird:newSighting });
 
-        // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
-        newSighting.set("html", html, {strict: false});
+          // the following two lines format a new sighting into display html populated with the sighting data
+          var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
+          var html = compiled({ bird:newSighting });
 
-        res.json(newSighting);
+          // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
+          newSighting.set("html", html, {strict: false});
+
+          // send results back to client.
+          res.json(newSighting);
+        });
       });
     }
     else {
