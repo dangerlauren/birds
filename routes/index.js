@@ -4,12 +4,13 @@ var Account = require('../models/account');
 var Bird = require('../models/bird');
 var Sighting = require('../models/sighting').Sighting;
 var makeSighting = require('../models/sighting').makeSighting;
+var killSighting = require('../models/sighting').killSighting;
 var router = express.Router();
 var validator = require('validator');
 
-var fs = require('fs');
-var ejs = require('ejs');
-var geocoder = require('geocoder');
+// var fs = require('fs');
+// var ejs = require('ejs');
+// var geocoder = require('geocoder');
 
 var paginate = require('express-paginate');
 
@@ -88,25 +89,9 @@ router.post('/newSighting', function(req, res) {
   makeSighting(req, res);
 });
 
-// router.post('/killSighting', function(req, res) {
-//   // console.log("req:",req);
-//   Sighting.findByIdAndRemove(req.body.id, function (err){
-//     console.log("err:",err);
-//     res.json({"killed": true})
-
-
-//     // if (err) {
-//     //   console.log ("kill_sighting err:", err);
-//     //   res.json({"killed": false})
-//     // }
-//     // else {
-//     //   res.json({"killed": true})
-//     // }
-
-
-
-//   });
-// });
+router.post('/killSighting', function(req, res) {
+  killSighting(req,res);
+});
 
 router.get('/about', function(req, res){
   res.render('about');

@@ -15,9 +15,7 @@ var sightingSchema = new Schema({
 
 Sighting = mongoose.model('Sighting', sightingSchema);
 
-function makeSighting (req, res) {
-	console.log("got here");
-
+function makeSighting(req, res) {
   geocoder.geocode(req.body.location, function ( err, data ) {
     if(!err){
       var lat = data.results[0].geometry.location.lat;
@@ -48,7 +46,21 @@ function makeSighting (req, res) {
   });
 };
 
+function killSighting(req, res) {
+  Sighting.findByIdAndRemove(req.body.id, function (err){
+    console.log("err:",err);
+    res.json({"killed": true})
+    // if (err) {
+    //   console.log ("kill_sighting err:", err);
+    //   res.json({"killed": false})
+    // }
+    // else {
+    //   res.json({"killed": true})
+    // }
+  });
+};
 
 // Make this available to our other files
 module.exports.Sighting = Sighting;
 module.exports.makeSighting = makeSighting;
+module.exports.killSighting = killSighting;
