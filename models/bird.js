@@ -1,4 +1,4 @@
-// Dog model w/ Mongoose
+// Bird model w/ Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
