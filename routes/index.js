@@ -2,9 +2,9 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var Bird = require('../models/bird');
-var Sighting = require('../models/sighting').Sighting;
-var makeSighting = require('../models/sighting').makeSighting;
-var killSighting = require('../models/sighting').killSighting;
+var sighting = require('../models/sighting');
+// var makeSighting = require('../models/sighting').makeSighting;
+// var killSighting = require('../models/sighting').killSighting;
 var router = express.Router();
 var validator = require('validator');
 var paginate = require('express-paginate');
@@ -14,11 +14,10 @@ router.get('/', function (req, res) {
     res.render('index', {title: 'What the Duck?'});
     return false;
   };
-
-  // find all the birds
+  // prepair to render the user home page: find all the birds
   Bird.find({}, function(err, birdData){
     // find all the users sightings
-    Sighting.find({accountUsername: req.user.username}, function(err, userBirds){
+    sighting.Sighting.find({accountUsername: req.user.username}, function(err, userBirds){
       // populate each user sighting with birds name and image info using _id/birdId as the join metric.
       for (i=0; i<userBirds.length; i++){
         for (j=0; j<birdData.length; j++){
@@ -91,11 +90,11 @@ router.get('/ping', function(req, res){
 });
 
 router.post('/newSighting', function(req, res) {
-  makeSighting(req, res);
+  sighting.makeSighting(req, res);
 });
 
 router.post('/killSighting', function(req, res) {
-  killSighting(req, res);
+  sighting.killSighting(req, res);
 });
 
 router.get('/about', function(req, res){
