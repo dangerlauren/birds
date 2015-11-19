@@ -9,8 +9,8 @@ var Schema = mongoose.Schema;
 var sightingSchema = new Schema({
     accountUsername: String,
     birdId: String,
-    birdName: String,
-    birdImage: String,
+    // birdName: String,
+    // birdImage: String,
     lat: String,
     lng: String
 });
