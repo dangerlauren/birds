@@ -18,7 +18,51 @@ var sightingSchema = new Schema({
 var Sighting = mongoose.model('Sighting', sightingSchema);
 
 var sighting = {
-  Sighting : Sighting,
+
+  Sighting: Sighting,
+
+  expandUserBirds: function (userBirds, birdData){
+
+  // console.log("userBirds:", userBirds); =>
+  // userBirds:  [ {
+  //   __v: 0,
+  //   lng: '-97.9701846',
+  //   lat: '30.18196499999999',
+  //   birdId: '5625452ae4b0dbc5bd3644ad',
+  //   accountUsername: 'sdeddens@gmail.com',
+  //   _id: 564e5b1a10f7a8512a8ce61f
+  //  }, {...}, ...]
+
+    for (i=0; i<userBirds.length; i++){
+      // populate each user sighting with birds name and image info using _id/birdId as the join metric.
+      // there is an easer way to do this using mongoose populate method, but this works for now.
+      for (j=0; j<birdData.length; j++){
+        if (userBirds[i].birdId == birdData[j]._id) {
+          // note: the "===" operator would fail here as mongo returns "_id" string as an Object!
+
+          // note: the following puts the properies into userBirds but accessing them yields "undefined"!
+          // userBirds[i].set("birdName", birdData[j].name, {strict: false});
+          // userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
+
+          // note: the following puts the properies into userBirds and they are accessable but they do not show up in object when logged!
+          userBirds[i].birdName = birdData[j].name;
+          userBirds[i].birdImage = birdData[j].images[0].url;
+        };
+      };
+    };
+    // console.log("userBirds:", userBirds); // =>
+    // userBirds: [ {
+    //   __v: 0,
+    //   lng: '-97.9701846',
+    //   lat: '30.18196499999999',
+    //   birdId: '5625452ae4b0dbc5bd3644ad',
+    //   accountUsername: 'sdeddens',
+    //   _id: 564e5b1a10f7a8512a8ce61f,
+    //   birdName: 'Redtail Hawk',  => not shown see note above
+    //   birdImage: 'http://greglasley.com/images/RA/Red-tailed%20Hawk%200026.jpg'  => not shown see note above
+    //  }, {...}, ...]
+  },
+
   makeSighting : function (req, res) {
     geocoder.geocode(req.body.location, function ( err, data ) {
       if(!err){
