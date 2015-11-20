@@ -41,10 +41,12 @@ var sighting = {
           // note: the "===" operator would fail here as mongo returns "_id" string as an Object!
 
           // note: the following puts the properies into userBirds but accessing them yields "undefined"!
-          // userBirds[i].set("birdName", birdData[j].name, {strict: false});
-          // userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
+          // however when sent via JSON they make it and the maps cans see them.
+          userBirds[i].set("birdName", birdData[j].name, {strict: false});
+          userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
 
           // note: the following puts the properies into userBirds and they are accessable but they do not show up in object when logged!
+          // necessary if we are going to compile an ejs div!  Magic to me!?
           userBirds[i].birdName = birdData[j].name;
           userBirds[i].birdImage = birdData[j].images[0].url;
         };
@@ -89,15 +91,20 @@ var sighting = {
           Bird.find({"_id": newSighting.birdId}, function(err, sightedBird){
           if (err) console.log ("Bird.err: ", err);
           // console.log("sightedBird :", sightedBird);
-          // sightedBird : [ { images:
+          // sightedBird :
+          //    [ { images:
           //    [ { url: 'http://greglasley.com/images/RA/Red-tailed%20Hawk%200026.jpg' },
           //      { url: 'http://static1.1.sqspcdn.com/static/f/325017/14889235/1319999704153/red-tailed-hawk_681_600x4501.jpg?token=0WP1gfkQcukUNkisguTe0pdUhw4%3D' } ],
           //   latin: 'Buteo jamaicensis',
           //   name: 'Redtail Hawk',
           //   _id: 5625452ae4b0dbc5bd3644ad } ]
+
+          // The following is totally crazy but it works. Read the notes above!
           // look up querys... and population
           newSighting.birdName = sightedBird[0].name;
           newSighting.birdImage = sightedBird[0].images[0].url;
+          newSighting.set("birdName", sightedBird[0].name, {strict: false});
+          newSighting.set("birdImage", sightedBird[0].images[0].url, {strict: false});
 
           // the following two lines format a new sighting into display html populated with the sighting data
           var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
