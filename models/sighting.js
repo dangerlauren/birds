@@ -74,14 +74,30 @@ var sighting = {
           lat: lat,
           lng: lng
         });
+
+
+
         newSighting.save(function(err){
-          console.log("newSighting: ", newSighting);
+          if (err) console.log ("newSightingErr: ", err);
+          // console.log("newSighting: ", newSighting);
+          // newSighting:  { _id: 564f575c4c8423dc5c15450c,
+          //   lng: '-97.9701846',
+          //   lat: '30.18196499999999',
+          //   birdId: '5625452ae4b0dbc5bd3644ad',
+          //   accountUsername: 'sdeddens',
+          //   __v: 0 }
           Bird.find({"_id": newSighting.birdId}, function(err, sightedBird){
-          // if (err) console.log ("err: ", err);
-          console.log("sightedBird :", sightedBird);
+          if (err) console.log ("Bird.err: ", err);
+          // console.log("sightedBird :", sightedBird);
+          // sightedBird : [ { images:
+          //    [ { url: 'http://greglasley.com/images/RA/Red-tailed%20Hawk%200026.jpg' },
+          //      { url: 'http://static1.1.sqspcdn.com/static/f/325017/14889235/1319999704153/red-tailed-hawk_681_600x4501.jpg?token=0WP1gfkQcukUNkisguTe0pdUhw4%3D' } ],
+          //   latin: 'Buteo jamaicensis',
+          //   name: 'Redtail Hawk',
+          //   _id: 5625452ae4b0dbc5bd3644ad } ]
           // look up querys... and population
-          newSighting.set("birdName", sightedBird[0].name, {strict: false});
-          newSighting.set("birdImage", sightedBird[0].images[0].url, {strict: false});
+          newSighting.birdName = sightedBird[0].name;
+          newSighting.birdImage = sightedBird[0].images[0].url;
 
           // the following two lines format a new sighting into display html populated with the sighting data
           var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
