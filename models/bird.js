@@ -1,10 +1,10 @@
-// Dog model w/ Mongoose
+// Bird model w/ Mongoose
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Image = new Schema({
 		url: {type: String, required: true }
-})
+});
 
 var birdSchema = new Schema({
     name: { type: String, required: true },

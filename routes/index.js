@@ -2,39 +2,38 @@ var express = require('express');
 var passport = require('passport');
 var Account = require('../models/account');
 var Bird = require('../models/bird');
-var Sighting = require('../models/sighting');
+var sighting = require('../models/sighting');
 var router = express.Router();
 var validator = require('validator');
-var fs = require('fs');
-var ejs = require('ejs');
-var geocoder = require('geocoder');
 var paginate = require('express-paginate');
+var util = require('util'); // for debugging only
 
 
 router.get('/', function (req, res) {
   if(!req.user) {
     res.render('index', {title: 'What the Duck?'});
     return false;
-  }
-
-  Bird.find({}, function(err, birddata){
-    Sighting.find({accountUsername: req.user.username}, function(err, stuff){
+  };
+  // prepair to render the user home page: find all the birds
+  Bird.find({}, function(err, birdData){
+    // find all the users sightings
+    sighting.Sighting.find({accountUsername: req.user.username}, function(err, userBirds){
+      sighting.expandUserBirds(userBirds, birdData);
       res.render('index', {
         user : req.user,
         title: 'What the Duck?',
-        birds: birddata,
-        userBirds: stuff,
+        birds: birdData,
+        userBirds: userBirds,
       });
     });
   });
 });
 
-
 router.get('/register', function(req, res) {
   res.render('register', {
-   username: "",
-   error: ""
- });
+    username: "",
+    error: ""
+  });
 });
 
 router.post('/register', function(req, res) {
@@ -80,54 +79,12 @@ router.get('/ping', function(req, res){
   res.status(200).send("pong!");
 });
 
-
 router.post('/newSighting', function(req, res) {
-
-    geocoder.geocode(req.body.location, function ( err, data ) {
-        if(!err){
-            var lat = data.results[0].geometry.location.lat;
-            var lng = data.results[0].geometry.location.lng;
-            var newSighting = Sighting({
-                accountUsername: req.user.username,
-                birdName: req.body.title,
-                birdImage: req.body.birdImage,
-                lat: lat,
-                lng: lng
-            });
-            console.log("geocode:");
-            newSighting.save(function(err){
-                if(err) console.log("err:", err);
-
-                // the following two lines format a new sighting into display html populated with the sighting data
-                var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-                var html = compiled({ bird:newSighting });
-                // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
-                newSighting.set("html",html, {strict: false});
-
-                res.json(newSighting);
-            });
-        }
-        else {
-          alert ("Location could not be found.");
-        };
-    });
+  sighting.makeSighting(req, res);
 });
 
 router.post('/killSighting', function(req, res) {
-  // console.log("req:",req);
-  Sighting.findByIdAndRemove(req.body.id, function (err){
-    console.log("err:",err);
-    res.json({"killed": true})
-
-
-    // if (err) {
-    //   console.log ("kill_sighting err:", err);
-    //   res.json({"killed": false})
-    // }
-    // else {
-    //   res.json({"killed": true})
-    // }
-  });
+  sighting.killSighting(req, res);
 });
 
 router.get('/about', function(req, res){
