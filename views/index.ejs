@@ -108,8 +108,8 @@
         };
 
         $('.btn-add').click(function(){
-            var title = $(this).parent().prev().text().trim();
-            var image = $(this).parent().parent().prev('img').attr('src');
+            // var title = $(this).parent().prev().text().trim();
+            // var image = $(this).parent().parent().prev('img').attr('src');
             var birdId = $(this).attr("data-birdId");
             var location = $(".locationText").val();
             $.ajax({
@@ -117,8 +117,8 @@
                 method: "POST",
                 data: {
                     birdId: birdId,
-                    title: title,
-                    birdImage: image,
+                    // title: title,
+                    // birdImage: image,
                     location: location
                 },
             }).done(function(sighting){
