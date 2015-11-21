@@ -99,7 +99,7 @@
                     url: '/killSighting',
                     method: "POST",
                     data: {id:id},
-                }).done(function(){
+                }).done(function(data,success){
                     var classId = "."+id;
                     $(classId).remove();
                     // else Alert ("Couldn't kill the bird!");
