@@ -100,16 +100,13 @@
                     method: "POST",
                     data: {id:id},
                 }).done(function(data,success){
-                    var classId = "."+id;
-                    $(classId).remove();
+                    $(event.target).closest(".sighting").remove();
                     // else Alert ("Couldn't kill the bird!");
                 });
             });
         };
 
         $('.btn-add').click(function(){
-            // var title = $(this).parent().prev().text().trim();
-            // var image = $(this).parent().parent().prev('img').attr('src');
             var birdId = $(this).attr("data-birdId");
             var location = $(".locationText").val();
             $.ajax({
@@ -117,8 +114,6 @@
                 method: "POST",
                 data: {
                     birdId: birdId,
-                    // title: title,
-                    // birdImage: image,
                     location: location
                 },
             }).done(function(sighting){
