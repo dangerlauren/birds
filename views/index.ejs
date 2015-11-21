@@ -118,6 +118,10 @@
                 },
             }).done(function(sighting){
                 console.log("sighting", sighting);
+                if (sighting.valueOf() == "err") {
+                    alert("Google could not find location.\n Sighting not added.");
+                    return;
+                };
                 $("#userBirdList").prepend(sighting.html);
                 addButtonKillHandeler('#'+ sighting._id);
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
