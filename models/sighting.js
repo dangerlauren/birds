@@ -68,7 +68,11 @@ var sighting = {
 
   makeSighting : function (req, res) {
     geocoder.geocode(req.body.location, function ( err, data ) {
-      if (err) console.log ("geocoderErr: ", err);
+      console.log ("data: ", data.status);
+      if (data.status.valueOf() != 'OK') {
+        res.json("err");
+        return;
+      };
       var lat = data.results[0].geometry.location.lat;
       var lng = data.results[0].geometry.location.lng;
       var newSighting = Sighting({
@@ -108,7 +112,7 @@ var sighting = {
 
         // the following two lines format a new sighting into display html populated with the sighting data
         var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
-        var html = compiled({ bird: newSighting });
+        var html = compiled({ sighting: newSighting });
 
         // and the next line injects the html into the mongoose object thus enabling the html to piggy back on the object.
         newSighting.set("html", html, {strict: false});

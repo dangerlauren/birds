@@ -21,7 +21,7 @@
 <!-- Start of user's birds. -->
             <div id="userBirdList" class="col-md-4">
             <%for(var x=userBirds.length-1; x>=0;x--){%>
-              <% var bird= userBirds[x] %>
+              <% var sighting= userBirds[x] %>
               <% include ./partials/userBird %>
             <% } %>
             </div>
@@ -118,6 +118,10 @@
                 },
             }).done(function(sighting){
                 console.log("sighting", sighting);
+                if (sighting.valueOf() == "err") {
+                    alert("Google could not find location.\n Sighting not added.");
+                    return;
+                };
                 $("#userBirdList").prepend(sighting.html);
                 addButtonKillHandeler('#'+ sighting._id);
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
