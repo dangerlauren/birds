@@ -71,6 +71,7 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTx6HnaOWxCy2LitrHA0qX1oSkwwUFcpg&signed_in=true&callback=initMap" async defer></script>
 <script>
     // google maps does not like to be inside of document ready function!!
+    var markers = {};
     function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 4,
@@ -87,7 +88,10 @@
                 title: sightings[x].birdName,
                 icon: image
             });
-        }
+            markers[sightings[x]._id]=marker;
+            // console.log ("marker: ",marker);
+        };
+        // console.log ("markers: ",markers);
     };
 
     $(document).ready(function(){
@@ -101,6 +105,7 @@
                     data: {id:id},
                 }).done(function(data,success){
                     $(event.target).closest(".sighting").remove();
+                    markers[id].setMap(null);
                     // else Alert ("Couldn't kill the bird!");
                 });
             });
@@ -132,6 +137,7 @@
                     title: sighting.birdName,
                     icon: image
                 });
+                markers[sighting._id]=marker;
             });
         });
 
