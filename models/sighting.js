@@ -67,10 +67,10 @@ var sighting = {
   },
 
   makeSighting : function (req, res) {
-    geocoder.geocode(req.body.location, function ( err, data ) {
-      console.log ("data: ", data.status);
-      if (data.status.valueOf() != 'OK') {
-        res.json("err");
+    geocoder.geocode(req.body.location, function ( anError, data ) {
+      console.log ("ERROR :", anError, "DATA : ", data);
+      if (anError || data.status.valueOf() != 'OK') {
+        res.json("error");
         return;
       };
       var lat = data.results[0].geometry.location.lat;
@@ -81,8 +81,8 @@ var sighting = {
         lat: lat,
         lng: lng
       });
-      newSighting.save(function(err){
-        if (err) console.log ("newSightingErr: ", err);
+      newSighting.save(function(anError){
+        if (anError) console.log ("newSightingErr: ", anError);
 /*        console.log("newSighting: ", newSighting);
 *         newSighting:  { _id: 564f575c4c8423dc5c15450c,
 *           lng: '-97.9701846',
@@ -92,7 +92,7 @@ var sighting = {
 *           __v: 0 }
 */
         Bird.find({"_id": newSighting.birdId}, function(err, sightedBird){
-        if (err) console.log ("Bird.err: ", err);
+        if (anError) console.log ("Bird.err: ", anError);
 /*        console.log("sightedBird :", sightedBird);
 *         sightedBird :
 *            [ { images:
@@ -125,16 +125,14 @@ var sighting = {
   },
 
   killSighting : function (req, res) {
-    Sighting.findByIdAndRemove(req.body.id, function (err){
-      console.log("err:",err);
-      res.json({"killed": true})
-      // if (err) {
-      //   console.log ("kill_sighting err:", err);
-      //   res.json({"killed": false})
-      // }
-      // else {
-      //   res.json({"killed": true})
-      // }
+    Sighting.findByIdAndRemove(req.body.id, function (anError){
+      if (anError) {
+        console.log ("kill_sighting error:", anError);
+        res.json({"killed": false})
+      }
+      else {
+        res.json({"killed": true})
+      }
     });
   }
 

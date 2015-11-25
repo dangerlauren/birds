@@ -104,6 +104,7 @@
                 }).done(function(data,success){
                     $(event.target).closest(".sighting").remove();
                     markers[id].setMap(null);
+                    delete markers[id];  // plug possible memory leak?
                     // else Alert ("Couldn't kill the bird!");
                 });
             });
@@ -121,7 +122,7 @@
                 },
             }).done(function(sighting){
                 console.log("sighting", sighting);
-                if (sighting.valueOf() == "err") {
+                if (sighting.valueOf() == "error") {
                     alert("Google could not find location.\n Sighting not added.");
                     return;
                 };
