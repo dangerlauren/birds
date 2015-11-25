@@ -113,6 +113,10 @@
         $('.btn-add').click(function(){
             var birdId = $(this).attr("data-birdId");
             var location = $(".locationText").val();
+            if (!location) {
+                alert("Please enter a valid location.");
+                return;
+            };
             $.ajax({
                 url: '/newSighting',
                 method: "POST",
@@ -121,7 +125,6 @@
                     location: location
                 },
             }).done(function(sighting){
-                console.log("sighting", sighting);
                 if (sighting.valueOf() == "error") {
                     alert("Google could not find location.\n Sighting not added.");
                     return;

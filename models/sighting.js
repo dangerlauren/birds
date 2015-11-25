@@ -68,7 +68,7 @@ var sighting = {
 
   makeSighting : function (req, res) {
     geocoder.geocode(req.body.location, function ( anError, data ) {
-      console.log ("ERROR :", anError, "DATA : ", data);
+      // console.log ("ERROR :", anError, "DATA : ", data);
       if (anError || data.status.valueOf() != 'OK') {
         res.json("error");
         return;
@@ -127,7 +127,7 @@ var sighting = {
   killSighting : function (req, res) {
     Sighting.findByIdAndRemove(req.body.id, function (anError){
       if (anError) {
-        console.log ("kill_sighting error:", anError);
+        // console.log ("kill_sighting error:", anError);
         res.json({"killed": false})
       }
       else {
