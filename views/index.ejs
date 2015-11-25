@@ -117,6 +117,7 @@
                 alert("Please enter a valid location.");
                 return;
             };
+            $("#myModal").modal("hide");
             $.ajax({
                 url: '/newSighting',
                 method: "POST",
