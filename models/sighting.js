@@ -41,13 +41,13 @@ var sighting = {
           // note: the following puts the properies into userBirds but accessing them yields "undefined"!
           // however when sent via JSON they make it and the maps cans see them.
           userBirds[i].set("birdName", birdData[j].name, {strict: false});
-          userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
+          userBirds[i].set("birdImages", birdData[j].images, {strict: false});
 
           // note: the following puts the properies into userBirds and they are accessable but they do not show up in object when logged!
           // necessary if we are going to compile an ejs div!  Magic to me!?
           // when sent via json they do not make it;
           userBirds[i].birdName = birdData[j].name;
-          userBirds[i].birdImage = birdData[j].images[0].url;
+          userBirds[i].birdImages = birdData[j].images;
         };
       };
     };
@@ -67,10 +67,10 @@ var sighting = {
   },
 
   makeSighting : function (req, res) {
-    geocoder.geocode(req.body.location, function ( err, data ) {
-      console.log ("data: ", data.status);
-      if (data.status.valueOf() != 'OK') {
-        res.json("err");
+    geocoder.geocode(req.body.location, function ( anError, data ) {
+      // console.log ("ERROR :", anError, "DATA : ", data);
+      if (anError || data.status.valueOf() != 'OK') {
+        res.json("error");
         return;
       };
       var lat = data.results[0].geometry.location.lat;
@@ -81,18 +81,18 @@ var sighting = {
         lat: lat,
         lng: lng
       });
-      newSighting.save(function(err){
-        if (err) console.log ("newSightingErr: ", err);
-/*        console.log("newSighting: ", newSighting);
-*         newSighting:  { _id: 564f575c4c8423dc5c15450c,
-*           lng: '-97.9701846',
-*           lat: '30.18196499999999',
-*           birdId: '5625452ae4b0dbc5bd3644ad',
-*           accountUsername: 'sdeddens',
-*           __v: 0 }
+      newSighting.save(function(anError){
+/*    console.log("newSighting: ", newSighting);
+*     newSighting:  { _id: 564f575c4c8423dc5c15450c,
+*       lng: '-97.9701846',
+*       lat: '30.18196499999999',
+*       birdId: '5625452ae4b0dbc5bd3644ad',
+*       accountUsername: 'sdeddens',
+*       __v: 0 }
 */
+        if (anError) console.log ("newSightingErr: ", anError);
         Bird.find({"_id": newSighting.birdId}, function(err, sightedBird){
-        if (err) console.log ("Bird.err: ", err);
+        if (anError) console.log ("Bird.err: ", anError);
 /*        console.log("sightedBird :", sightedBird);
 *         sightedBird :
 *            [ { images:
@@ -106,9 +106,9 @@ var sighting = {
 //        look up querys... and population
 
         newSighting.birdName = sightedBird[0].name;
-        newSighting.birdImage = sightedBird[0].images[0].url;
+        newSighting.birdImages = sightedBird[0].images;
         newSighting.set("birdName", sightedBird[0].name, {strict: false});
-        newSighting.set("birdImage", sightedBird[0].images[0].url, {strict: false});
+        newSighting.set("birdImages", sightedBird[0].images, {strict: false});
 
         // the following two lines format a new sighting into display html populated with the sighting data
         var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));
@@ -125,16 +125,14 @@ var sighting = {
   },
 
   killSighting : function (req, res) {
-    Sighting.findByIdAndRemove(req.body.id, function (err){
-      console.log("err:",err);
-      res.json({"killed": true})
-      // if (err) {
-      //   console.log ("kill_sighting err:", err);
-      //   res.json({"killed": false})
-      // }
-      // else {
-      //   res.json({"killed": true})
-      // }
+    Sighting.findByIdAndRemove(req.body.id, function (anError){
+      if (anError) {
+        // console.log ("kill_sighting error:", anError);
+        res.json({"killed": false})
+      }
+      else {
+        res.json({"killed": true})
+      }
     });
   }
 

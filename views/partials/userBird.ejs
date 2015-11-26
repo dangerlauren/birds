@@ -1,14 +1,16 @@
-<div class="sighting">
+<div class="sighting imageParent">
 		<div class="birdName">
 		  <%= sighting.birdName %>
 		</div>
 		<div class="birdImage">
-				<img width="158" height="150" class="thumbnailImage" src="<%= sighting.birdImage %>">
+				<% var imageUrls = '['+'"'+sighting.birdImages[0].url+'"'%>;
+				<%for (var j=1;j<sighting.birdImages.length;j++){imageUrls += (',"'+sighting.birdImages[j].url+'"')} imageUrls += ']' %>
+				<img width="158" height="150" class="thumbnailImage" src="<%= sighting.birdImages[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'/>
 		</div>
 		<div class="caption">
 		    <div class="btn-group btn-group-xs" >
 		        <button type="button" class="btn-kill btn btn-default btn-left" id="<%=sighting._id%>"> REMOVE </button>
-		        <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
+		        <button type="button" class="btn btn-altImg btn-default btn-right" data-id="<%=sighting._id%>">ALT VIEW</button>
 		    </div>
 		</div>
 		<br>

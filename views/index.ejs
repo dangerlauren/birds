@@ -44,13 +44,15 @@
                         <div class="row">
                         <%for(var i=0;i<birds.length;i++){%>
                             <div class="col-xs-6 col-md-4">
-                                <div class="thumbnail">
-                                    <img class="thumbnailImage" src="<%= birds[i].images[0].url %>">
+                                <div class="thumbnail imageParent">
+                                    <% var imageUrls = '['+'"'+birds[i].images[0].url+'"'%>;
+                                    <%for (var j=1;j<birds[i].images.length;j++){imageUrls += (',"'+birds[i].images[j].url+'"')} imageUrls += ']' %>
+                                    <img class="thumbnailImage" src="<%= birds[i].images[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'/>
                                     <div class="caption">
                                         <h4><%= birds[i].name %></h4>
                                         <div class="btn-group btn-group-xs" role="group" aria-label="...">
                                             <button type="button" class="btn-add btn btn-default btn-left" data-birdId="<%= birds[i]._id %>"> ADD </button>
-                                            <button type="button" class="btn btn-default btn-right">ALT VIEW</button>
+                                            <button type="button" class="btn-altImg btn btn-default btn-right">ALT VIEW</button>
                                         </div>
                                     </div>
                                 </div>
@@ -72,6 +74,7 @@
 <script>
     // google maps does not like to be inside of document ready function!!
     var markers = {};
+    // var birds = <%- JSON.stringify(birds) %>;
     function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 4,
@@ -81,7 +84,7 @@
         var sightings = <%- JSON.stringify(userBirds) %>;
         for(var x = 0; x < sightings.length; x++){
             var latlng = new google.maps.LatLng(sightings[x].lat, sightings[x].lng);
-            var image = {url: sightings[x].birdImage, scaledSize: new google.maps.Size(20, 20)};
+            var image = {url: sightings[x].birdImages[0].url, scaledSize: new google.maps.Size(20, 20)};
             var marker = new google.maps.Marker({
                 map: map,
                 position: latlng,
@@ -89,14 +92,12 @@
                 icon: image
             });
             markers[sightings[x]._id]=marker;
-            // console.log ("marker: ",marker);
         };
-        // console.log ("markers: ",markers);
     };
 
     $(document).ready(function(){
 
-        function addButtonKillHandeler (selector){
+        function addKillButtonHandler (selector){
             $(selector).click(function(event){
                 var id = event.target.id;
                 $.ajax({
@@ -106,14 +107,31 @@
                 }).done(function(data,success){
                     $(event.target).closest(".sighting").remove();
                     markers[id].setMap(null);
+                    delete markers[id];  // plug possible memory leak?
                     // else Alert ("Couldn't kill the bird!");
                 });
+            });
+        };
+
+        function addAltImageButtonHandler(selector){
+            $(selector).click(function(){
+                var targetImg = $(event.target).closest(".imageParent").find('.thumbnailImage');
+                var imageUrls = targetImg.data('imageurls');
+                var idx = targetImg.data('index');
+                if (++idx==imageUrls.length) idx=0;
+                targetImg.data('index',idx);
+                targetImg.attr('src',imageUrls[idx]);
             });
         };
 
         $('.btn-add').click(function(){
             var birdId = $(this).attr("data-birdId");
             var location = $(".locationText").val();
+            if (!location) {
+                alert("Please enter a valid location.");
+                return;
+            };
+            $("#myModal").modal("hide");
             $.ajax({
                 url: '/newSighting',
                 method: "POST",
@@ -122,15 +140,15 @@
                     location: location
                 },
             }).done(function(sighting){
-                console.log("sighting", sighting);
-                if (sighting.valueOf() == "err") {
+                if (sighting.valueOf() == "error") {
                     alert("Google could not find location.\n Sighting not added.");
                     return;
                 };
                 $("#userBirdList").prepend(sighting.html);
-                addButtonKillHandeler('#'+ sighting._id);
+                addKillButtonHandler('#'+ sighting._id);
+                addAltImageButtonHandler('[data-id="'+sighting._id+'"]');
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
-                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)};
+                var image = {url: sighting.birdImages[0].url, scaledSize: new google.maps.Size(20, 20)};
                 var marker = new google.maps.Marker({
                     map: map,
                     position: latlng,
@@ -141,7 +159,8 @@
             });
         });
 
-        addButtonKillHandeler('.btn-kill');
+        addKillButtonHandler('.btn-kill');
+        addAltImageButtonHandler('.btn-altImg');
 
     });
 </script>
