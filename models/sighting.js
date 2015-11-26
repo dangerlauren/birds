@@ -82,15 +82,15 @@ var sighting = {
         lng: lng
       });
       newSighting.save(function(anError){
-        if (anError) console.log ("newSightingErr: ", anError);
-/*        console.log("newSighting: ", newSighting);
-*         newSighting:  { _id: 564f575c4c8423dc5c15450c,
-*           lng: '-97.9701846',
-*           lat: '30.18196499999999',
-*           birdId: '5625452ae4b0dbc5bd3644ad',
-*           accountUsername: 'sdeddens',
-*           __v: 0 }
+/*    console.log("newSighting: ", newSighting);
+*     newSighting:  { _id: 564f575c4c8423dc5c15450c,
+*       lng: '-97.9701846',
+*       lat: '30.18196499999999',
+*       birdId: '5625452ae4b0dbc5bd3644ad',
+*       accountUsername: 'sdeddens',
+*       __v: 0 }
 */
+        if (anError) console.log ("newSightingErr: ", anError);
         Bird.find({"_id": newSighting.birdId}, function(err, sightedBird){
         if (anError) console.log ("Bird.err: ", anError);
 /*        console.log("sightedBird :", sightedBird);
