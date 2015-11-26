@@ -47,7 +47,7 @@
                                 <div class="thumbnail imageParent">
                                     <% var imageUrls = '['+'"'+birds[i].images[0].url+'"'%>;
                                     <%for (var j=1;j<birds[i].images.length;j++){imageUrls += (',"'+birds[i].images[j].url+'"')} imageUrls += ']' %>
-                                    <img class="thumbnailImage" src="<%= birds[i].images[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'>
+                                    <img class="thumbnailImage" src="<%= birds[i].images[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'/>
                                     <div class="caption">
                                         <h4><%= birds[i].name %></h4>
                                         <div class="btn-group btn-group-xs" role="group" aria-label="...">
@@ -116,7 +116,6 @@
         function addAltImageButtonHandler(selector){
             $(selector).click(function(){
                 var targetImg = $(event.target).closest(".imageParent").find('.thumbnailImage');
-                console.log("clicked: ", targetImg);
                 var imageUrls = targetImg.data('imageurls');
                 var idx = targetImg.data('index');
                 if (++idx==imageUrls.length) idx=0;
