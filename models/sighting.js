@@ -41,13 +41,13 @@ var sighting = {
           // note: the following puts the properies into userBirds but accessing them yields "undefined"!
           // however when sent via JSON they make it and the maps cans see them.
           userBirds[i].set("birdName", birdData[j].name, {strict: false});
-          userBirds[i].set("birdImage", birdData[j].images[0].url, {strict: false});
+          userBirds[i].set("birdImages", birdData[j].images, {strict: false});
 
           // note: the following puts the properies into userBirds and they are accessable but they do not show up in object when logged!
           // necessary if we are going to compile an ejs div!  Magic to me!?
           // when sent via json they do not make it;
           userBirds[i].birdName = birdData[j].name;
-          userBirds[i].birdImage = birdData[j].images[0].url;
+          userBirds[i].birdImages = birdData[j].images;
         };
       };
     };
@@ -106,9 +106,9 @@ var sighting = {
 //        look up querys... and population
 
         newSighting.birdName = sightedBird[0].name;
-        newSighting.birdImage = sightedBird[0].images[0].url;
+        newSighting.birdImages = sightedBird[0].images;
         newSighting.set("birdName", sightedBird[0].name, {strict: false});
-        newSighting.set("birdImage", sightedBird[0].images[0].url, {strict: false});
+        newSighting.set("birdImages", sightedBird[0].images, {strict: false});
 
         // the following two lines format a new sighting into display html populated with the sighting data
         var compiled = ejs.compile(fs.readFileSync(process.cwd() + '/views/partials/userBird.ejs', 'utf8'));

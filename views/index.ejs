@@ -84,7 +84,7 @@
         var sightings = <%- JSON.stringify(userBirds) %>;
         for(var x = 0; x < sightings.length; x++){
             var latlng = new google.maps.LatLng(sightings[x].lat, sightings[x].lng);
-            var image = {url: sightings[x].birdImage, scaledSize: new google.maps.Size(20, 20)};
+            var image = {url: sightings[x].birdImages[0].url, scaledSize: new google.maps.Size(20, 20)};
             var marker = new google.maps.Marker({
                 map: map,
                 position: latlng,
@@ -147,10 +147,9 @@
                 };
                 $("#userBirdList").prepend(sighting.html);
                 addKillButtonHandler('#'+ sighting._id);
-                console.log('selector::','button[data-id="'+sighting._id+'"]');
                 addAltImageButtonHandler('[data-id="'+sighting._id+'"]');
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
-                var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)};
+                var image = {url: sighting.birdImages[0].url, scaledSize: new google.maps.Size(20, 20)};
                 var marker = new google.maps.Marker({
                     map: map,
                     position: latlng,
