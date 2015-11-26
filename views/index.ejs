@@ -44,7 +44,7 @@
                         <div class="row">
                         <%for(var i=0;i<birds.length;i++){%>
                             <div class="col-xs-6 col-md-4">
-                                <div class="thumbnail">
+                                <div class="thumbnail imageParent">
                                     <% var imageUrls = '['+'"'+birds[i].images[0].url+'"'%>;
                                     <%for (var j=1;j<birds[i].images.length;j++){imageUrls += (',"'+birds[i].images[j].url+'"')} imageUrls += ']' %>
                                     <img class="thumbnailImage" src="<%= birds[i].images[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'>
@@ -74,7 +74,7 @@
 <script>
     // google maps does not like to be inside of document ready function!!
     var markers = {};
-    var birds = <%- JSON.stringify(birds) %>;
+    // var birds = <%- JSON.stringify(birds) %>;
     function initMap(){
         map = new google.maps.Map(document.getElementById('map'), {
             zoom: 4,
@@ -97,7 +97,7 @@
 
     $(document).ready(function(){
 
-        function addButtonKillHandeler (selector){
+        function addKillButtonHandler (selector){
             $(selector).click(function(event){
                 var id = event.target.id;
                 $.ajax({
@@ -110,6 +110,18 @@
                     delete markers[id];  // plug possible memory leak?
                     // else Alert ("Couldn't kill the bird!");
                 });
+            });
+        };
+
+        function addAltImageButtonHandler(selector){
+            $(selector).click(function(){
+                var targetImg = $(event.target).closest(".imageParent").find('.thumbnailImage');
+                console.log("clicked: ", targetImg);
+                var imageUrls = targetImg.data('imageurls');
+                var idx = targetImg.data('index');
+                if (++idx==imageUrls.length) idx=0;
+                targetImg.data('index',idx);
+                targetImg.attr('src',imageUrls[idx]);
             });
         };
 
@@ -134,7 +146,9 @@
                     return;
                 };
                 $("#userBirdList").prepend(sighting.html);
-                addButtonKillHandeler('#'+ sighting._id);
+                addKillButtonHandler('#'+ sighting._id);
+                console.log('selector::','button[data-id="'+sighting._id+'"]');
+                addAltImageButtonHandler('[data-id="'+sighting._id+'"]');
                 var latlng = new google.maps.LatLng(sighting.lat, sighting.lng);
                 var image = {url: sighting.birdImage, scaledSize: new google.maps.Size(20, 20)};
                 var marker = new google.maps.Marker({
@@ -147,23 +161,10 @@
             });
         });
 
-        $('.btn-altImg').click(function(){
-            var targetImg = $(event.target).closest(".thumbnail").find('.thumbnailImage');
-            var imageUrls = targetImg.data('imageurls');
-            var idx = targetImg.data('index');
-            if (++idx==imageUrls.length) idx=0;
-            targetImg.data('index',idx);
-            targetImg.attr('src',imageUrls[idx]);
-        });
-
-        addButtonKillHandeler('.btn-kill');
+        addKillButtonHandler('.btn-kill');
+        addAltImageButtonHandler('.btn-altImg');
 
     });
 </script>
 <% }; %>
 <% include ./partials/footer %>
-
-
-imageUrls='[&quot;
-http://1.bp.blogspot.com/_kBNnyETKMIk/Sjb_ekKunZI/AAAAAAAABrQ/LD2LfNinykE/s400/donald-duck-head.jpg&quot;,
-http://vignette3.wikia.nocookie.net/disney/images/9/92/Donald_Duck_757.jpg/revision/latest?cb=20131102201426&quot;]'
