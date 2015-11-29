@@ -115,12 +115,18 @@
 
         function addAltImageButtonHandler(selector){
             $(selector).click(function(){
-                var targetImg = $(event.target).closest(".imageParent").find('.thumbnailImage');
+                var targetParent=$(event.target).closest(".imageParent");
+                var targetImg = targetParent.find('.thumbnailImage');
                 var imageUrls = targetImg.data('imageurls');
                 var idx = targetImg.data('index');
                 if (++idx==imageUrls.length) idx=0;
                 targetImg.data('index',idx);
                 targetImg.attr('src',imageUrls[idx]);
+                var id = targetParent.find('.btn-kill').attr("id");
+                if (id != undefined) {
+                    markers[id].icon.url = imageUrls[idx];
+                    markers[id].setMap(map);
+                };
             });
         };
 
@@ -156,6 +162,7 @@
                     icon: image
                 });
                 markers[sighting._id]=marker;
+                console.log (marker);
             });
         });
 
