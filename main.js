@@ -2,7 +2,6 @@
 var bodyParser              = require('body-parser');
 var cookieParser            = require('cookie-parser');
 var express                 = require('express');
-// var express_geocoding_api   = require('express-geocoding-api');
 var favicon                 = require('serve-favicon');
 var geocoder                = require('geocoder');
 var LocalStrategy           = require('passport-local').Strategy;

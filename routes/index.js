@@ -4,8 +4,8 @@ var Account   = require('../models/account');
 var Bird      = require('../models/bird');
 var sighting  = require('../models/sighting');
 var router    = express.Router();
-// var validator = require('validator');
-// var paginate  = require('express-paginate');
+var validator = require('validator');
+var paginate  = require('express-paginate');
 var util      = require('util'); // for debugging only
 
 
