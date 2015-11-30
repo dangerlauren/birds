@@ -1,20 +1,22 @@
 // dependencies
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
+var bodyParser              = require('body-parser');
+var cookieParser            = require('cookie-parser');
+var express                 = require('express');
+// var express_geocoding_api   = require('express-geocoding-api');
+var favicon                 = require('serve-favicon');
+var geocoder                = require('geocoder');
+var LocalStrategy           = require('passport-local').Strategy;
+var logger                  = require('morgan');
+var mongoose                = require('mongoose');
+var path                    = require('path');
+var passport                = require('passport');
+var paginate                = require('express-paginate');
+var validator               = require('validator');
 
-var mongoose = require('mongoose');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var routes                  = require('./routes/index');
+var users                   = require('./routes/users');
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
-
-var app = express();
-
+var app                     = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -32,6 +34,12 @@ app.use(require('express-session')({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// app.use(express_geocoding_api({
+//     geocoder: {
+//         provider: 'google'
+//     }
+// }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
