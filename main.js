@@ -50,7 +50,8 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect(process.env.MONGO_DB_BIRDS);
+// mongoose.connect(process.env.MONGO_DB_BIRDS);
+mongoose.connect("mongodb://steve:Iflyism3@ds041404.mongolab.com:41404/birds_db");
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
