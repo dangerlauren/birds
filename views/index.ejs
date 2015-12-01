@@ -98,14 +98,14 @@
     $(document).ready(function(){
 
         function addKillButtonHandler (selector){
-            $(selector).click(function(event){
-                var id = event.target.id;
+            $(selector).click(function(e){
+                var id = e.target.id;
                 $.ajax({
                     url: '/killSighting',
                     method: "POST",
                     data: {id:id},
                 }).done(function(data,success){
-                    $(event.target).closest(".sighting").remove();
+                    $(e.target).closest(".sighting").remove();
                     markers[id].setMap(null);
                     delete markers[id];  // plug possible memory leak?
                     // else Alert ("Couldn't kill the bird!");
@@ -114,8 +114,8 @@
         };
 
         function addAltImageButtonHandler(selector){
-            $(selector).click(function(){
-                var targetParent=$(event.target).closest(".imageParent");
+            $(selector).click(function(e){
+                var targetParent=$(e.target).closest(".imageParent");
                 var targetImg = targetParent.find('.thumbnailImage');
                 var imageUrls = targetImg.data('imageurls');
                 var idx = targetImg.data('index');
