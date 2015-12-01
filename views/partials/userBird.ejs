@@ -3,7 +3,7 @@
 		  <%= sighting.birdName %>
 		</div>
 		<div class="birdImage">
-				<% var imageUrls = '['+'"'+sighting.birdImages[0].url+'"'%>;
+				<% var imageUrls = '['+'"'+sighting.birdImages[0].url+'"'%>
 				<%for (var j=1;j<sighting.birdImages.length;j++){imageUrls += (',"'+sighting.birdImages[j].url+'"')} imageUrls += ']' %>
 				<img width="158" height="150" class="thumbnailImage" src="<%= sighting.birdImages[0].url %>" data-index='0' data-imageurls='<%= imageUrls %>'/>
 		</div>
