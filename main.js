@@ -50,8 +50,12 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-// mongoose.connect(process.env.MONGO_DB_BIRDS);
-mongoose.connect("mongodb://steve:Iflyism3@ds041404.mongolab.com:41404/birds_db");
+// for production comment out following line:
+mongoose.connect(process.env.MONGO_DB_BIRDS);
+// and fill in the logon string from .bash_profile MONGO_DB_BIRDS environment variable.
+// mongoose.connect("mongodb://...longon credentials go here... ");
+// ALSO, IMPORTANT.. MODIFY package.json line 6 to read:
+//     "start" : "NODE_ENV=production node ./bin/www"
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
